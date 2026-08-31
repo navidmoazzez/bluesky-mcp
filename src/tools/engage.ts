@@ -1,5 +1,5 @@
 /**
- * Liking, reposting, following, muting, blocking — and undoing all of it.
+ * Liking, reposting, following, muting, blocking, and undoing all of it.
  *
  * Neither reference server can undo anything. brianellin's has `like-post` and
  * `follow-user` and no way back; berlinbra's has neither. That is a real gap,
@@ -68,7 +68,7 @@ const likePost = defineTool({
   name: "like_post",
   title: "Like a post",
   description:
-    "Like a post. Accepts an at:// URI or a bsky.app link. Liking twice is harmless — the existing like is returned rather than a second one created.",
+    "Like a post. Accepts an at:// URI or a bsky.app link. Liking twice is harmless: the existing like is returned rather than a second one created.",
   schema: {
     uri: z.string().describe("at:// URI or bsky.app link of the post."),
     ...accountArg,
@@ -213,7 +213,7 @@ const mute = defineTool({
   name: "mute_account",
   title: "Mute an account",
   description:
-    "Hide an account's posts from your feeds without them knowing. Private and reversible — unlike a block, they can still see and reply to you.",
+    "Hide an account's posts from your feeds without them knowing. Private and reversible. Unlike a block, they can still see and reply to you.",
   schema: { actor: z.string().describe("Handle or DID."), ...accountArg },
   risk: "write",
   idempotent: true,
@@ -266,7 +266,7 @@ const unblock = defineTool({
   name: "unblock_account",
   title: "Unblock an account",
   description:
-    "Remove a block. Any follows the block severed do not come back — both sides have to follow again.",
+    "Remove a block. Any follows the block severed do not come back. Both sides have to follow again.",
   schema: { actor: z.string().describe("Handle or DID."), ...accountArg },
   risk: "write",
   idempotent: true,

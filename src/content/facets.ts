@@ -47,7 +47,7 @@ const TAG_REGEX =
  *
  * The official client checks the full IANA list. Carrying 1,400 entries to
  * decide whether "foo.zuerich" is a link is not worth the maintenance, and the
- * failure mode of a miss is mild — the text stays plain, and an explicit
+ * failure mode of a miss is mild, the text stays plain, and an explicit
  * https:// prefix always works. The failure mode of a false positive is worse:
  * a post that links "e.g" to a domain someone else owns.
  */
@@ -70,7 +70,7 @@ type PendingMention = { start: number; end: number; handle: string };
 /**
  * Find every link, tag and mention in `text`.
  *
- * Returns the facets that need no lookup, plus the mentions that do — kept
+ * Returns the facets that need no lookup, plus the mentions that do. Kept
  * separate so a caller with no client (a dry run, a test) can still get links
  * and tags without pretending to resolve anything.
  */

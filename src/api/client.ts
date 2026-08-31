@@ -12,7 +12,7 @@
  * the app password if the refresh itself fails.
  *
  * Reads that need no session go to the public appview. That is not just
- * politeness — it means `get_profile` and `get_author_feed` work before you
+ * politeness. It means `get_profile` and `get_author_feed` work before you
  * have configured any credentials at all, which is the difference between a
  * server that is useless until set up and one that is useful immediately.
  *
@@ -297,7 +297,7 @@ export class BlueskyClient {
   }
 }
 
-/** 400ms, 800ms, 1600ms — with jitter, so parallel callers do not resynchronise. */
+/** 400ms, 800ms, 1600ms, with jitter, so parallel callers do not resynchronise. */
 function backoffMs(attempt: number): number {
   return 400 * 2 ** attempt + Math.floor(Math.random() * 200);
 }

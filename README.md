@@ -1,6 +1,6 @@
 # Bluesky MCP
 
-Give any AI agent full control of your Bluesky account. Post, reply, run threads, read your timeline, search the network, manage who you follow, and study how anyone writes — from Claude, Cursor, or any MCP client.
+Give any AI agent full control of your Bluesky account. Post, reply, run threads, read your timeline, search the network, manage who you follow, and study how anyone writes, from Claude, Cursor, or any MCP client.
 
 41 tools. No OAuth app to register: a handle and an app password is the whole setup. Most reads work with no credentials at all.
 
@@ -11,7 +11,7 @@ You: what did the people I follow argue about while I was asleep?
 
 Claude: Reading your timeline for the last 9 hours. 214 posts, three real threads.
 
-  1. Whether custom feeds should be ranked or chronological — 40 posts,
+  1. Whether custom feeds should be ranked or chronological, 40 posts,
      mostly between four accounts, no resolution.
   2. A PDS outage this morning. Resolved; bsky.app posted an explanation.
   3. Someone's chart of handle churn since January, quoted 30 times.
@@ -162,7 +162,7 @@ Revoke it on that same page at any time; nothing else about your account is affe
 | Tool | What it does |
 |---|---|
 | `list_accounts` | Every connected account, and which one acts by default |
-| `whoami` | Authenticate and return the live profile — use this to confirm credentials |
+| `whoami` | Authenticate and return the live profile. Use this to confirm credentials |
 | `get_video_job_status` | Check a video transcode job by id |
 
 ### Posting
@@ -208,21 +208,21 @@ Every action has its inverse. `like_post` on an already-liked post returns the e
 | `search_actors` | `q`, `limit`, `cursor` |
 | `search_feeds` | `q`, `limit` |
 | `get_feed` | `feed`, `limit`, `cursor` |
-| `get_pinned_feeds` | — |
+| `get_pinned_feeds` | none |
 | `get_list_posts` | `list`, `limit`, `cursor` |
 | `get_trends` | `limit`, `include_suggested` |
 | `get_suggested_follows` | `actor`, `limit` |
 
-`search_posts` takes Bluesky's operators inside `q`: `from:handle`, `to:handle`, `mentions:handle`, `domain:example.com`, `since:2026-01-01`, `lang:en`, `"quoted phrases"`. It is the one endpoint that needs a session — Bluesky's public API returns 403 for it.
+`search_posts` takes Bluesky's operators inside `q`: `from:handle`, `to:handle`, `mentions:handle`, `domain:example.com`, `since:2026-01-01`, `lang:en`, `"quoted phrases"`. It is the one endpoint that needs a session. Bluesky's public API returns 403 for it.
 
 ### The graph
 
 | Tool | Arguments |
 |---|---|
-| `get_profile` | `actors[]` — up to 25 in one call |
+| `get_profile` | `actors[]`, up to 25 in one call |
 | `get_followers` | `actor`, `limit`, `cursor` |
 | `get_follows` | `actor`, `limit`, `cursor` |
-| `get_relationships` | `actors[]` — do I follow them, do they follow me |
+| `get_relationships` | `actors[]`, whether I follow them and whether they follow me |
 | `get_lists` | `actor`, `limit`, `cursor` |
 | `get_list_members` | `list`, `limit`, `cursor` |
 
@@ -231,14 +231,14 @@ Every action has its inverse. `like_post` on an already-liked post returns the e
 | Tool | Arguments |
 |---|---|
 | `get_notifications` | `limit`, `reasons[]`, `unread_only`, `cursor` |
-| `get_unread_count` | — |
+| `get_unread_count` | none |
 | `mark_notifications_seen` | `seen_at` |
 
 ### Resources and prompts
 
-Three resources — `bluesky://accounts`, `bluesky://concepts`, `bluesky://output-format` — so a client can load context without spending a tool call.
+Three resources, `bluesky://accounts`, `bluesky://concepts`, `bluesky://output-format`, so a client can load context without spending a tool call.
 
-Three prompts — **catch-up**, **draft-thread**, **study-account**.
+Three prompts: **catch-up**, **draft-thread**, **study-account**.
 
 ---
 
@@ -255,7 +255,7 @@ So four tools refuse to run without `confirm: true`:
 
 The model has to set it deliberately, after reading a description that says why. That is a speed bump a careless call trips over and an intentional one clears in a single retry.
 
-Likes, reposts, follows and mutes are **not** guarded. Each is one click to undo, and a confirmation on every like would only train the model to pass `confirm` reflexively — which is worse than not asking.
+Likes, reposts, follows and mutes are **not** guarded. Each is one click to undo, and a confirmation on every like would only train the model to pass `confirm` reflexively, which is worse than not asking.
 
 ### Turning writes off entirely
 
@@ -289,7 +289,7 @@ Every tool carries MCP annotations, so a client can decide what to auto-approve:
 BLUESKY_AUDIT_LOG=~/.bluesky-mcp/writes.jsonl
 ```
 
-One JSON line per attempted write — allowed and blocked alike — with a timestamp and a one-line summary of what it was about to do.
+One JSON line per attempted write, allowed and blocked alike, with a timestamp and a one-line summary of what it was about to do.
 
 ### Prompt injection
 
@@ -303,12 +303,12 @@ Write the post the way a person would type it. Do not format anything.
 
 ### Links and mentions become real
 
-Bluesky renders nothing on its own. A URL in post text is grey, unclickable text unless a **facet** — a byte range attached to the record — marks it. An `@handle` is inert unless a facet carries that account's DID.
+Bluesky renders nothing on its own. A URL in post text is grey, unclickable text unless a **facet**, a byte range attached to the record, marks it. An `@handle` is inert unless a facet carries that account's DID.
 
 This server builds them:
 
 ```
-Shipping today: https://navid.me/x — thanks @alice.bsky.social #buildinpublic
+Shipping today: https://navid.me/x, thanks @alice.bsky.social #buildinpublic
 ```
 
 becomes a clickable link, a real mention that notifies Alice, and a tag that appears in that tag's feed. Bare domains work too (`navid.me`) when the TLD is a common one; anything else needs an explicit `https://`.
@@ -322,7 +322,7 @@ Bluesky's cap is 300 **graphemes** and 3,000 **bytes**. Those are different from
 ### Media
 
 - **Images:** up to four, each under 1MB, each with `alt`. Dimensions are read from the file header and sent as an aspect ratio, so a tall screenshot is not letterboxed into a square.
-- **Video:** one MP4, uploaded through Bluesky's transcoding service and polled to completion. Not a plain blob upload — that publishes a post that plays for nobody.
+- **Video:** one MP4, uploaded through Bluesky's transcoding service and polled to completion. Not a plain blob upload. That publishes a post that plays for nobody.
 - **Link card:** `link: {uri, title, description, thumb_url}`.
 - **Quote:** `quote: "<at:// URI or bsky.app link>"`, and a quote may carry media alongside it.
 
@@ -334,7 +334,7 @@ A post takes one embed, or one quote plus one piece of media. Images and video a
 
 ### Replies
 
-`reply_to` takes the post you are answering. The thread's root is resolved from that post's own record — a reply that names only its parent is accepted by Bluesky and then never appears in the thread it belongs to.
+`reply_to` takes the post you are answering. The thread's root is resolved from that post's own record. A reply that names only its parent is accepted by Bluesky and then never appears in the thread it belongs to.
 
 ### Reply and quote controls
 
@@ -354,7 +354,7 @@ A post takes one embed, or one quote plus one piece of media. Images and video a
 
 ## 7. Reading posts
 
-Feeds, threads and search results come back as tagged text rather than API JSON. On a real 50-post feed that is 49,839 characters instead of 521,426 — about 12,500 tokens instead of 130,000.
+Feeds, threads and search results come back as tagged text rather than API JSON. On a real 50-post feed that is 49,839 characters instead of 521,426, about 12,500 tokens instead of 130,000.
 
 ```xml
 <posts count="2" source="timeline" cursor="…">
@@ -374,7 +374,7 @@ Feeds, threads and search results come back as tagged text rather than API JSON.
 
 - `posted_at` is always ISO-8601 UTC, so two timestamps can be compared.
 - `type` is one or more of `standalone`, `reply`, `quote`.
-- `reply_to` and `thread_root` carry the thread structure without reordering the feed — a timeline stays reverse-chronological.
+- `reply_to` and `thread_root` carry the thread structure without reordering the feed. A timeline stays reverse-chronological.
 - A quote is a nested `<quoted_post>`; a deleted or blocked one keeps a `state="deleted"` / `state="blocked"` placeholder, so a gap is visible rather than implied.
 - `labels` carries any moderation labels.
 - `cursor` on the root element continues the listing.
@@ -432,7 +432,7 @@ src/
     accounts.ts posts.ts engage.ts read.ts discover.ts graph.ts notifications.ts
 ```
 
-Two dependencies: the MCP SDK and zod. Not `@atproto/api` — the parts of it this needs are facet detection (about forty lines, taken from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the whole generated lexicon client for them.
+Two dependencies: the MCP SDK and zod. Not `@atproto/api`: the parts of it this needs are facet detection (about forty lines, taken from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the whole generated lexicon client for them.
 
 **Sessions.** One per account, cached, refreshed with `com.atproto.server.refreshSession` when the access JWT's `exp` passes, and only re-minted from the app password if the refresh itself fails. `createSession` is rate-limited hard; a server that calls it per request starts failing on a busy day.
 
@@ -499,7 +499,7 @@ Two other Bluesky MCP servers exist. Both were read in full from source before t
 
 `✗` means present but wrong; `–` means absent.
 
-The short version: `bsky-mcp-server` reads Bluesky well — its structured output is the right answer and we adopted it — but its `create-post` sends no facets, so every link and mention it publishes is dead text, and it sets a reply's root to its parent, which detaches the reply from its thread. `bluesky-mcp` returns raw JSON, logs in again on every tool call, and its `bluesky_get_liked_posts` passes a handle where the endpoint requires a post URI, so it errors every time.
+The short version. `bsky-mcp-server` reads Bluesky well, and its structured output is the right answer that we adopted, but its `create-post` sends no facets, so every link and mention it publishes is dead text, and it sets a reply's root to its parent, which detaches the reply from its thread. `bluesky-mcp` returns raw JSON, logs in again on every tool call, and its `bluesky_get_liked_posts` passes a handle where the endpoint requires a post URI, so it errors every time.
 
 Neither can undo anything it does, and neither asks before doing something public.
 
@@ -515,7 +515,7 @@ Neither can undo anything it does, and neither asks before doing something publi
 | "No account resolves for …" | The handle needs its domain: `alice.bsky.social`, not `alice` |
 | `search_posts` returns 403 | It needs a session. Configure an account |
 | "Image is 2.4MB; Bluesky's limit is 1MB" | Resize it. Bluesky's own error for this says nothing useful |
-| A post published but the link is not clickable | Not this server — check whether the URL had a scheme or a common TLD |
+| A post published but the link is not clickable | Not this server. Check whether the URL had a scheme or a common TLD |
 | "will not run without confirm: true" | Working as intended. See [section 5](#5-writing-safely) |
 | Video posted but will not play | It went up as a plain blob, not through the transcoder. This server does not do that; another client might have |
 | Rate limited | Bluesky's write limits. The client backs off; a bulk operation may still exhaust them |
@@ -550,14 +550,14 @@ Pull requests welcome. A change to facet handling, the output format or the vide
 
 | Variable | Default | What it does |
 |---|---|---|
-| `BLUESKY_IDENTIFIER` | — | Your full handle |
-| `BLUESKY_APP_PASSWORD` | — | An app password, never your account password |
+| `BLUESKY_IDENTIFIER` | none | Your full handle |
+| `BLUESKY_APP_PASSWORD` | none | An app password, never your account password |
 | `BLUESKY_SERVICE_URL` | `https://bsky.social` | Your PDS |
-| `BLUESKY_ACCOUNTS` | — | JSON array, for several accounts |
+| `BLUESKY_ACCOUNTS` | none | JSON array, for several accounts |
 | `BLUESKY_DEFAULT_ACCOUNT` | first configured | Which handle acts when a tool names none |
 | `BLUESKY_READ_ONLY` | `0` | Hide every write from the tool list |
 | `BLUESKY_ALLOW_DESTRUCTIVE` | `1` | `0` blocks posting, deleting and blocking |
-| `BLUESKY_AUDIT_LOG` | — | Append-only log of every attempted write |
+| `BLUESKY_AUDIT_LOG` | none | Append-only log of every attempted write |
 | `BLUESKY_REQUEST_TIMEOUT_MS` | `30000` | Per-request deadline |
 | `BLUESKY_MIN_REQUEST_INTERVAL_MS` | `120` | Spacing between requests |
 | `BLUESKY_MAX_RETRIES` | `3` | Retries on 429 and 5xx |
@@ -565,7 +565,7 @@ Pull requests welcome. A change to facet handling, the output format or the vide
 | `BLUESKY_VIDEO_SERVICE` | `https://video.bsky.app` | Video transcoding service |
 | `BLUESKY_HTTP_PORT` | `8787` | For `--http` |
 | `BLUESKY_HTTP_HOST` | `127.0.0.1` | For `--http` |
-| `BLUESKY_HTTP_TOKEN` | — | Bearer token required by `--http` |
+| `BLUESKY_HTTP_TOKEN` | none | Bearer token required by `--http` |
 
 ## Versions
 

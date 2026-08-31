@@ -2,8 +2,9 @@
  * Typed errors for every way an XRPC call can fail.
  *
  * The AT Protocol returns a consistent `{error, message}` envelope, and the
- * `error` field is a machine-readable name — `ExpiredToken`, `RateLimitExceeded`,
- * `InvalidRequest` — that says far more than the status code does. Both
+ * `error` field is a machine-readable name such as `ExpiredToken`,
+ * `RateLimitExceeded` or `InvalidRequest`, and it says far more than the status
+ * code does. Both
  * reference servers throw the status away and hand the model a bare string, so
  * a model that could have refreshed a token or resized an image instead just
  * gives up. Each failure here keeps the name, the status and the endpoint, and
@@ -41,7 +42,7 @@ export class AtpError extends Error {
 /** 401, or an `ExpiredToken` / `InvalidToken` body. The session must be re-minted. */
 export class AuthenticationError extends AtpError {}
 
-/** 403. Authenticated, but not allowed — often a public-appview endpoint that needs a session. */
+/** 403. Authenticated, but not allowed. Often a public-appview endpoint that needs a session. */
 export class ForbiddenError extends AtpError {}
 
 /** 400 `InvalidRequest`, plus the lexicon validation failures. */
@@ -183,7 +184,7 @@ export function errorFor(
   }
   if (status === 404 || code === "RecordNotFound" || code === "NotFound") {
     return new NotFoundError(
-      `Not found via ${nsid}. Check the handle, DID or post URI — a deleted post and a post that never existed look the same here.`,
+      `Not found via ${nsid}. Check the handle, DID or post URI. A deleted post and a post that never existed look the same here.`,
       status,
       nsid,
       code,

@@ -1,5 +1,5 @@
 /**
- * `bluesky-mcp doctor` — say what is wrong, in the order it will break.
+ * `bluesky-mcp doctor`. Say what is wrong, in the order it will break.
  *
  * The failure people actually hit is using the account password instead of an
  * app password: `createSession` returns a generic 401 and there is nothing in
@@ -82,7 +82,7 @@ export async function runDoctor(): Promise<number> {
         checks.push({
           ok: false,
           label: `${account.handle} may not be able to write`,
-          detail: `${(error as Error).message} — if posting fails, regenerate the app password.`,
+          detail: `${(error as Error).message} If posting fails, regenerate the app password.`,
         });
       }
     } catch (error) {
@@ -96,10 +96,10 @@ export async function runDoctor(): Promise<number> {
 
   // 4. Anything that will surprise someone later.
   if (config.readOnly) {
-    checks.push({ ok: true, label: "BLUESKY_READ_ONLY=1 — every write is hidden from the tool list" });
+    checks.push({ ok: true, label: "BLUESKY_READ_ONLY=1: every write is hidden from the tool list" });
   }
   if (!config.allowDestructive) {
-    checks.push({ ok: true, label: "BLUESKY_ALLOW_DESTRUCTIVE=0 — posting and deleting are blocked" });
+    checks.push({ ok: true, label: "BLUESKY_ALLOW_DESTRUCTIVE=0: posting and deleting are blocked" });
   }
   if (config.preferred.length) {
     checks.push({ ok: true, label: `default account preference: ${config.preferred.join(", ")}` });

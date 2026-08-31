@@ -34,7 +34,7 @@ Read `get_post_thread` before replying to something, so the reply lands with con
 
 Pass `confirm` when the user has asked for that specific action. Do not pass it to get past the refusal on something you decided to do yourself. When drafting, show the draft as text and wait.
 
-Likes, reposts, follows and mutes need no confirmation — they are one call to undo, and every one of them has its inverse (`unlike_post`, `unrepost`, `unfollow`, `unmute_account`, `unblock_account`).
+Likes, reposts, follows and mutes need no confirmation. They are one call to undo, and every one of them has its inverse (`unlike_post`, `unrepost`, `unfollow`, `unmute_account`, `unblock_account`).
 
 ## Identifying posts
 
@@ -46,7 +46,7 @@ Handles need their domain: `alice.bsky.social`, not `alice`. A leading `@` is fi
 
 Feeds come back as tagged text, not JSON. `posted_at` is ISO-8601 UTC. `cursor` on the root element continues the listing. See the `bluesky://output-format` resource for the full shape.
 
-`since_hours` on `get_timeline` and `get_author_feed` reads a time window instead of a count — use it for "what happened today".
+`since_hours` on `get_timeline` and `get_author_feed` reads a time window instead of a count. Use it for "what happened today".
 
 `filter: "posts_no_replies"` on `get_author_feed` when studying how someone writes, so replies do not dominate the sample.
 

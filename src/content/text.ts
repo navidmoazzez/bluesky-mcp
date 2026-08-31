@@ -7,7 +7,7 @@
  *   - facet offsets are **UTF-8 byte** positions
  *   - JavaScript string indices are **UTF-16 code units**
  *
- * `z.string().max(300)` — which is what brianellin's server uses — counts UTF-16
+ * `z.string().max(300)`, which is what brianellin's server uses, counts UTF-16
  * code units, so it rejects a perfectly legal post: "👨‍👩‍👧‍👦" is one grapheme
  * and eleven code units, meaning a post of 28 family emoji is refused locally
  * while Bluesky would have accepted it. In the other direction a naive byte
@@ -44,8 +44,8 @@ export function byteLength(text: string): number {
  * Convert a UTF-16 index into a UTF-8 byte offset.
  *
  * Called once per facet boundary rather than per character: encoding the prefix
- * each time is O(n) but n is a 300-grapheme post, and the alternative — a
- * hand-rolled surrogate walk — is where off-by-one facet bugs live.
+ * each time is O(n) but n is a 300-grapheme post, and the alternative, a
+ * hand-rolled surrogate walk, is where off-by-one facet bugs live.
  */
 export function utf16ToUtf8Index(text: string, index: number): number {
   if (index <= 0) return 0;
@@ -66,7 +66,7 @@ export function assertPostLength(text: string): void {
   const bytes = byteLength(text);
   if (bytes > MAX_BYTES) {
     throw new Error(
-      `Post is ${bytes} bytes; Bluesky's limit is ${MAX_BYTES}. It is under the ${MAX_GRAPHEMES}-character limit but the characters are wide — trim it or split it into a thread.`,
+      `Post is ${bytes} bytes; Bluesky's limit is ${MAX_BYTES}. It is under the ${MAX_GRAPHEMES}-character limit but the characters are wide. Trim it or split it into a thread.`,
     );
   }
 }

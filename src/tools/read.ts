@@ -2,8 +2,8 @@
  * Reading feeds.
  *
  * Every tool here can page past Bluesky's 100-item ceiling on its own, and the
- * timeline and author-feed tools can take a time window instead of a count —
- * "what happened in the last six hours" is the question people actually ask,
+ * timeline and author-feed tools can take a time window instead of a count.
+ * "What happened in the last six hours" is the question people actually ask,
  * and making the model guess how many posts that is and then drive a cursor
  * loop by hand is a tool that gets abandoned after the first page.
  *
@@ -87,7 +87,7 @@ const getAuthorFeed = defineTool({
   name: "get_author_feed",
   title: "Read an account's posts",
   description:
-    "Posts by one account, newest first. Works for anyone, with or without credentials. Use filter to separate original posts from replies and reposts — 'posts_no_replies' is what you want when studying how someone writes.",
+    "Posts by one account, newest first. Works for anyone, with or without credentials. Use filter to separate original posts from replies and reposts: 'posts_no_replies' is what you want when studying how someone writes.",
   schema: {
     actor: z.string().describe("Handle (with or without @) or DID."),
     limit: z
@@ -147,7 +147,7 @@ const getLikedPosts = defineTool({
   name: "get_liked_posts",
   title: "Read posts you have liked",
   description:
-    "Posts a connected account has liked, newest first. Only works for your own accounts — Bluesky does not expose anyone else's likes as a feed.",
+    "Posts a connected account has liked, newest first. Only works for your own accounts, because Bluesky does not expose anyone else's likes as a feed.",
   schema: {
     limit: z.number().int().min(1).max(500).optional().describe("How many. Default 50."),
     cursor: z.string().optional(),
@@ -235,7 +235,7 @@ const getQuotes = defineTool({
   name: "get_quotes",
   title: "See who quoted a post",
   description:
-    "Posts that quote a specific post. This is where the argument about a post usually lives — quotes carry commentary, reposts do not.",
+    "Posts that quote a specific post. This is where the argument about a post usually lives: quotes carry commentary, reposts do not.",
   schema: {
     uri: z.string().describe("at:// URI or bsky.app link of the post."),
     ...pageArgs,

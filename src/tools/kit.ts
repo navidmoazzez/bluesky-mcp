@@ -31,7 +31,7 @@ export type ToolResult = {
  * A tool returns either a pre-rendered string or a value to serialise.
  *
  * The reading tools return the tagged format from `format/posts.ts`, which is
- * already text. The writing tools return a small object — a URI, a permalink —
+ * already text. The writing tools return a small object, a URI, a permalink,
  * where JSON is clearer than tags. Both go through here so neither has to think
  * about the MCP content envelope.
  */

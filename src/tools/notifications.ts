@@ -4,7 +4,7 @@
  * Neither reference server can mark anything read, which means an agent asked
  * to "deal with my mentions" reads the same twenty every time it runs. Bluesky
  * tracks a single `seenAt` timestamp per account, so marking read is one call
- * — the omission is not a difficulty, just a gap.
+ * so marking read is one call. The omission is not a difficulty, just a gap.
  */
 
 import { z } from "zod";
@@ -31,7 +31,7 @@ const getNotifications = defineTool({
   name: "get_notifications",
   title: "Read notifications",
   description:
-    "Your likes, reposts, follows, mentions, replies and quotes, newest first. Filter by reason to get just the ones that need an answer — 'mention' and 'reply' are the ones a person actually has to deal with.",
+    "Your likes, reposts, follows, mentions, replies and quotes, newest first. Filter by reason to get just the ones that need an answer: 'mention' and 'reply' are the ones a person actually has to deal with.",
   schema: {
     limit: z.number().int().min(1).max(300).optional().describe("How many. Pages automatically. Default 30."),
     reasons: z
@@ -71,7 +71,7 @@ const getUnreadCount = defineTool({
   name: "get_unread_count",
   title: "Count unread notifications",
   description:
-    "How many notifications have arrived since you last marked them seen. One cheap call — use it before pulling the full list.",
+    "How many notifications have arrived since you last marked them seen. One cheap call, worth making before you pull the full list.",
   schema: { ...accountArg },
   risk: "read",
   handler: async ({ account }, ctx) => {
@@ -89,7 +89,7 @@ const markSeen = defineTool({
   name: "mark_notifications_seen",
   title: "Mark notifications read",
   description:
-    "Mark every notification up to now as seen, so the unread count resets. Affects only your own view — nobody else can tell.",
+    "Mark every notification up to now as seen, so the unread count resets. Affects only your own view, and nobody else can tell.",
   schema: {
     seen_at: z
       .string()

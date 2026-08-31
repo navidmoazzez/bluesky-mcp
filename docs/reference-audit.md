@@ -4,8 +4,8 @@ Read from source on 2026-08-31, not from the READMEs and not from memory.
 Every API claim below was also checked against the live endpoint or the
 published lexicon on the same day; those checks are quoted where they matter.
 
-- `brianellin/bsky-mcp-server` — TypeScript, 19 tools, 2,529 lines across `src/`
-- `berlinbra/bluesky-mcp` — Python, 8 tools, 288 lines in `src/bluesky_mcp/server.py`
+- `brianellin/bsky-mcp-server`: TypeScript, 19 tools, 2,529 lines across `src/`
+- `berlinbra/bluesky-mcp`: Python, 8 tools, 288 lines in `src/bluesky_mcp/server.py`
 
 This file exists so the reasons behind our design decisions do not get lost.
 Every claim carries a file and line reference.
@@ -62,7 +62,7 @@ changed is below.
 sends `{text, createdAt}` and nothing else.
 
 Bluesky renders nothing on its own. A URL in post text is grey, unclickable
-text unless a **facet** — a byte range attached to the record — marks it. An
+text unless a **facet**, a byte range attached to the record, marks it. An
 `@handle` is likewise inert unless a facet carries the mentioned account's DID.
 
 So every post this server publishes that contains a link or a mention looks
@@ -72,9 +72,9 @@ single most consequential gap in either repository.
 Ours builds facets for links, hashtags and mentions, resolving each mention to
 a DID before publishing (`src/content/facets.ts`). The detection regexes are
 taken from `@atproto/api`'s `detectFacets` so a post written here segments
-exactly the way the official client would segment it — unchanged apart from the
-URL pattern's named capture group, which is unnamed and read by index so the
-file also compiles at an ES2017 target.
+exactly the way the official client would segment it. The one edit is the URL
+pattern's named capture group, which is unnamed here and read by index instead,
+so the file also compiles at an ES2017 target.
 
 ### Replies detach from their thread
 
@@ -98,10 +98,10 @@ parent only when the parent really is the root (`src/tools/posts.ts`,
 ### Half of the output is unescaped
 
 `escapeXml` is imported once and used in the two thread-rendering paths
-(llm-preprocessor.ts:465 and :634 onward). The feed-rendering path — `formatPost` (line 100) and
-`formatEmbeds` (line 184), which is what `get-timeline-posts`, `search-posts`,
-`get-liked-posts`, `get-user-posts` and `get-feed-posts` all call — uses it
-nowhere.
+(llm-preprocessor.ts:465 and :634 onward). It is used nowhere in the
+feed-rendering path, which is `formatPost` (line 100) and `formatEmbeds`
+(line 184), and which is what `get-timeline-posts`, `search-posts`,
+`get-liked-posts`, `get-user-posts` and `get-feed-posts` all call.
 
 An author whose display name contains a `"` therefore emits malformed XML from
 the feed renderer and valid XML from the thread renderer. Post text is never
@@ -109,7 +109,7 @@ escaped in any path, so a post containing `</post>` closes the element early.
 
 This is a direct consequence of the file having three near-identical copies of
 the same rendering logic (`formatPost`, `processThreadViewPostChain`,
-`processThreadViewPost`), which have already drifted apart in other ways too —
+`processThreadViewPost`), which have already drifted apart in other ways too:
 the feed path omits link thumbnails, the thread paths include them.
 
 Ours has one renderer, `renderPost`, and every attribute and every text body
@@ -134,8 +134,8 @@ if (!uri.startsWith('at://did:plc:') || !uri.includes('/app.bsky.feed.post/')) {
 ```
 
 `did:plc:` is one of two DID methods in use. Every post on a self-hosted PDS
-using `did:web:` — which is exactly the audience most likely to run an MCP
-server — is unreachable through this tool. A `bsky.app` link is also rejected,
+using `did:web:` is unreachable through this tool, and that is exactly the
+audience most likely to run an MCP server. A `bsky.app` link is also rejected,
 which is why the repo ships a separate `convert-url-to-uri` tool whose only job
 is to work around this.
 
@@ -152,8 +152,7 @@ Post Count: ${topic.postCount} posts
 ```
 
 `app.bsky.unspecced.getTrendingTopics` returns
-`{topic, displayName, description, link}` today. Verified live on 2026-08-31 —
-neither `postCount` nor `startTime` is present. Every trending topic this tool
+`{topic, displayName, description, link}` today. Verified live on 2026-08-31. Neither `postCount` nor `startTime` is present. Every trending topic this tool
 returns is annotated `Post Count: undefined posts` and
 `Started Trending: Invalid Date`.
 
@@ -163,7 +162,7 @@ one genuinely useful field and did not exist when the reference was written.
 ### `recordWithMedia` is dropped
 
 `grep -c recordWithMedia src/llm-preprocessor.ts` returns 0. A quote post with
-an image attached — extremely common — renders with neither the quote nor the
+an image attached, extremely common, renders with neither the quote nor the
 image. Ours renders both.
 
 ### Nothing can be undone
@@ -195,8 +194,8 @@ confirmation. A post is public the instant it lands and there is no unsend.
   own pinned post in an author-less `<repost>`.
 - One process-wide login at startup, no refresh. An access JWT lasts about two
   hours; `initializeBlueskyConnection` (index.ts:41) never calls
-  `refreshSession` — `grep -c refreshSession src/index.ts` returns 0, so a long-lived server stops working and only a restart
-  fixes it.
+  `refreshSession`, and `grep -c refreshSession src/index.ts` returns 0. A
+  long-lived server stops working and only a restart fixes it.
 - `console.error` is used for logging and for debug output in the preprocessor,
   which on a stdio transport shares the channel with the protocol's own stderr
   diagnostics.
@@ -266,8 +265,7 @@ The tool errors on every call. The endpoint it wants is
 ### `bluesky_search_profiles` uses a deprecated parameter
 
 `{'term': query}` at server.py:262. The lexicon marks `term` as
-`"DEPRECATED: use 'q' instead"`. It still answers 200 today, so this works —
-but it is on the list of things that stop working without notice.
+`"DEPRECATED: use 'q' instead"`. It still answers 200 today, so this works, but it is on the list of things that stop working without notice.
 
 ### It cannot write anything
 
@@ -342,12 +340,12 @@ because the video was never transcoded and has no HLS playlist.
 The real path, confirmed against `bluesky-social/social-app` and the live
 service on 2026-08-31:
 
-1. `app.bsky.video.getUploadLimits` on `video.bsky.app` — refuses early when
+1. `app.bsky.video.getUploadLimits` on `video.bsky.app`. Refuses early when
    the daily quota is spent.
 2. `com.atproto.server.getServiceAuth` with `aud=did:web:video.bsky.app` and
-   `lxm=app.bsky.video.uploadVideo` — the video service is not your PDS, so
+   `lxm=app.bsky.video.uploadVideo`. The video service is not your PDS, so
    your session token is not accepted there.
-3. `app.bsky.video.uploadVideo` on `video.bsky.app` — returns a **job**, not a
+3. `app.bsky.video.uploadVideo` on `video.bsky.app`. Returns a **job**, not a
    blob.
 4. Poll `app.bsky.video.getJobStatus` until `JOB_STATE_COMPLETED`, which is
    when the blob to embed finally exists.

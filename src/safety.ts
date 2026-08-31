@@ -9,14 +9,14 @@
  *
  * The hazard here is specific and worth naming. A post is public the instant it
  * lands, and deleting it does not pull it out of the feeds, caches and clients
- * that already have it — an unsend does not exist. A delete is likewise final.
+ * that already have it. An unsend does not exist. A delete is likewise final.
  * Neither is dangerous when a human meant it.
  *
  * So: everything works, and the operations that reach other people need an
  * explicit `confirm: true` the model has to set deliberately after reading the
  * tool description. That is a speed bump a careless call trips over and an
  * intentional one clears in one retry. Likes, reposts and follows are one
- * click to undo and are not guarded — a confirm on every like would train the
+ * click to undo and are not guarded. A confirm on every like would train the
  * model to pass confirm reflexively, which is worse than not asking.
  *
  * BLUESKY_READ_ONLY=1 removes every write from the tool list entirely, for

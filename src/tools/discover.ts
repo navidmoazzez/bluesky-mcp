@@ -1,7 +1,7 @@
 /**
  * Finding things: search, custom feeds, lists, and what is trending.
  *
- * `search_posts` is the one endpoint that genuinely requires a session — the
+ * `search_posts` is the one endpoint that genuinely requires a session: the
  * public appview returns 403 for it, which is easy to mistake for broken
  * credentials, so the tool says so rather than passing the 403 through.
  *
@@ -23,7 +23,7 @@ const searchPosts = defineTool({
   name: "search_posts",
   title: "Search posts",
   description:
-    "Full-text search across public posts. Supports Bluesky's search operators: from:handle, to:handle, mentions:handle, domain:example.com, since:YYYY-MM-DD, until:YYYY-MM-DD, lang:en, and \"quoted phrases\". Requires a connected account — Bluesky's public API refuses this endpoint.",
+    "Full-text search across public posts. Supports Bluesky's search operators: from:handle, to:handle, mentions:handle, domain:example.com, since:YYYY-MM-DD, until:YYYY-MM-DD, lang:en, and \"quoted phrases\". Requires a connected account. Bluesky's public API refuses this endpoint.",
   schema: {
     q: z.string().describe("The query. Operators like from:alice.bsky.social work inside it."),
     sort: z
@@ -100,7 +100,7 @@ const searchFeeds = defineTool({
   name: "search_feeds",
   title: "Search custom feeds",
   description:
-    "Find custom feeds — the algorithmic feeds anyone on Bluesky can publish. Pass a feed's URI to get_feed to read it. Works without credentials.",
+    "Find custom feeds, meaning the algorithmic feeds anyone on Bluesky can publish. Pass a feed's URI to get_feed to read it. Works without credentials.",
   schema: {
     q: z.string().describe("What the feed is about, e.g. 'science' or 'book club'."),
     limit: z.number().int().min(1).max(100).optional().describe("How many. Default 10."),
@@ -308,7 +308,7 @@ const getSuggestions = defineTool({
   name: "get_suggested_follows",
   title: "Get follow suggestions",
   description:
-    "Accounts Bluesky suggests following. With an `actor`, returns accounts similar to that one — which is the better way to find a niche.",
+    "Accounts Bluesky suggests following. With an `actor`, returns accounts similar to that one, which is the better way to find a niche.",
   schema: {
     actor: z
       .string()

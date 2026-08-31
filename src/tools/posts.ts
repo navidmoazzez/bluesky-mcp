@@ -4,8 +4,8 @@
  * `create_post` is the tool that carries the most difference from the reference
  * servers. Theirs is text plus an optional reply URI. This one also carries
  * images with alt text and measured aspect ratios, a transcoded video, a link
- * card, a quote, reply controls, and — the part that actually decides whether a
- * post looks broken — facets, so links and mentions render.
+ * card, a quote, reply controls, and the part that actually decides whether a
+ * post looks broken: facets, so links and mentions render.
  *
  * `create_thread` exists because a 300-character limit means threads are the
  * normal way to say anything, and building one by hand is four tool calls where
@@ -27,7 +27,7 @@ const imageSchema = z.object({
   alt: z
     .string()
     .default("")
-    .describe("Alt text. Write real alt text — an empty string makes the post unreadable to screen readers."),
+    .describe("Alt text. Write real alt text, because an empty string makes the post unreadable to screen readers."),
 });
 
 const linkSchema = z.object({
@@ -159,7 +159,7 @@ async function buildRecord(
  * The `{root, parent}` pair a reply needs.
  *
  * A reply must name the thread **root**, not just its parent. Setting root to
- * the parent — which is what brianellin's server does — produces a post that
+ * the parent, which is what brianellin's server does, produces a post that
  * detaches from the conversation: it shows as a reply to one post while the
  * thread it belongs to never lists it.
  */
@@ -257,7 +257,7 @@ const createPost = defineTool({
   name: "create_post",
   title: "Post to Bluesky",
   description:
-    "Publish a post. Handles plain text, up to four images with alt text, a video, a link card, a quote, and replies. URLs, #hashtags and @mentions in the text are turned into real links automatically — you do not need to format them. The limit is 300 characters; for anything longer use create_thread. Public the moment it runs, so it needs confirm: true.",
+    "Publish a post. Handles plain text, up to four images with alt text, a video, a link card, a quote, and replies. URLs, #hashtags and @mentions in the text are turned into real links automatically. You do not need to format them. The limit is 300 characters; for anything longer use create_thread. Public the moment it runs, so it needs confirm: true.",
   schema: {
     text: z
       .string()

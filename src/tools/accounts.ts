@@ -50,7 +50,7 @@ const videoJobStatus = defineTool({
   name: "get_video_job_status",
   title: "Check a video upload job",
   description:
-    "Check a Bluesky video transcoding job by id. Only needed when create_post reported that a video was still processing when it gave up waiting — the job usually finishes on its own and the id is in that message.",
+    "Check a Bluesky video transcoding job by id. Only needed when create_post reported that a video was still processing when it gave up waiting. The job usually finishes on its own, and the id is in that message.",
   schema: {
     job_id: z.string().describe("The job id reported by a timed-out create_post."),
     ...accountArg,

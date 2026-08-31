@@ -169,7 +169,7 @@ export async function uploadImage(
 
   if (media.bytes.byteLength > MAX_IMAGE_BYTES) {
     throw new ValidationError(
-      `Image is ${(media.bytes.byteLength / 1e6).toFixed(2)}MB; Bluesky's limit is 1MB. Resize or re-encode it before posting — the server's own error for this does not say what went wrong.`,
+      `Image is ${(media.bytes.byteLength / 1e6).toFixed(2)}MB; Bluesky's limit is 1MB. Resize or re-encode it before posting. The server's own error for this does not say what went wrong.`,
       400,
       "com.atproto.repo.uploadBlob",
       "BlobTooLarge",
@@ -208,9 +208,9 @@ type JobStatus = {
  *
  * Four steps, and skipping any of them produces a post that looks fine in the
  * API response and plays for nobody:
- *   1. `getUploadLimits` — refuses early when the daily quota is spent
+ *   1. `getUploadLimits`. Refuses early when the daily quota is spent
  *   2. `getServiceAuth` scoped to the video service, since it is not the PDS
- *   3. `uploadVideo` — returns a job, not a blob
+ *   3. `uploadVideo`. Returns a job, not a blob
  *   4. poll `getJobStatus` until the transcode completes
  */
 export async function uploadVideo(

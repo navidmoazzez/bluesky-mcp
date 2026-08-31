@@ -160,7 +160,7 @@ export type RenderOptions = {
    *
    * A callback rather than a rendered string, because indenting an existing
    * block after the fact also indents the continuation lines of the post text
-   * inside it — so a two-paragraph post three levels deep comes back with
+   * inside it, so a two-paragraph post three levels deep comes back with
    * leading spaces its author never typed, and a model cannot tell the
    * difference between the format's whitespace and the author's.
    */
@@ -168,7 +168,7 @@ export type RenderOptions = {
   /**
    * Why this item is in the feed. `#reasonRepost` wraps the post in a
    * `<repost>`; `#reasonPin` only marks it pinned. Treating every reason as a
-   * repost — which is the easy mistake — emits an author-less `<repost>` around
+   * repost, which is the easy mistake, emits an author-less `<repost>` around
    * an account's own pinned post, which reads as someone else having shared it.
    */
   reason?: Any;
@@ -238,8 +238,8 @@ export function renderPost(post: Any, options: RenderOptions = {}, depth = 0): s
  * A feed page: a flat list of posts, each with its own repost wrapper.
  *
  * Deliberately flat. The original groups feed items into threads and nests
- * replies, which reorders the timeline — the one property a reverse-chronological
- * feed is supposed to have — and drops the reply's own position in it. The
+ * replies, which reorders the timeline, the one property a reverse-chronological
+ * feed is supposed to have, and drops the reply's own position in it. The
  * `thread_root` attribute carries the relationship without moving anything.
  */
 export function renderFeed(
@@ -264,7 +264,7 @@ export function renderFeed(
  *
  * The chain is flattened root-first and rendered top-down, so the conversation
  * reads the way a person would read it and every post lands at its final depth
- * on the first pass. A broken link in the chain — a deleted or blocked parent —
+ * on the first pass. A broken link in the chain, a deleted or blocked parent,
  * is shown where it happened rather than truncating everything above it.
  */
 export function renderThread(thread: Any, requestedUri?: string): string {

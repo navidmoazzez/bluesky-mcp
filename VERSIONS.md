@@ -51,7 +51,7 @@ after about two hours. Ours caches per account and refreshes.
 ### The thing that was right elsewhere
 
 `bsky-mcp-server`'s structured XML output. Measured on a 50-post feed: 49,839
-characters against 521,426 for the raw JSON a naive server returns — roughly
+characters against 521,426 for the raw JSON a naive server returns, roughly
 12,500 tokens instead of 130,000. The idea and the broad tag shape are taken
 wholesale, with the fixes above plus `recordWithMedia` support, placeholders for
 deleted and blocked posts, moderation labels, cursors on the root element, and

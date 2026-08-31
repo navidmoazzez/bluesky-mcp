@@ -42,7 +42,7 @@ Or in any client's MCP config:
 
 1. [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords)
 2. **Add App Password**, name it `mcp`
-3. Copy the `xxxx-xxxx-xxxx-xxxx` value — it is shown once
+3. Copy the `xxxx-xxxx-xxxx-xxxx` value. It is shown once
 
 **Never use the account password.** An app password is revocable from that same
 page and cannot change your email or password. The account password can.

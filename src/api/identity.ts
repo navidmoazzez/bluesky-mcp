@@ -1,11 +1,11 @@
 /**
- * Handles, DIDs, AT URIs and bsky.app links — and moving between them.
+ * Handles, DIDs, AT URIs and bsky.app links, and moving between them.
  *
  * A model will hand you whatever the user pasted. That is almost always a
  * bsky.app permalink, occasionally an at:// URI, sometimes a bare handle with
  * an @ on it. brianellin's server makes this the user's problem: `get-post-thread`
- * hard-rejects anything not starting with `at://did:plc:` — which also rejects
- * every valid `did:web:` post — and ships a separate `convert-url-to-uri` tool
+ * hard-rejects anything not starting with `at://did:plc:`, which also rejects
+ * every valid `did:web:` post, and ships a separate `convert-url-to-uri` tool
  * so the model can do the conversion itself, one extra round trip at a time.
  *
  * Here every URI argument goes through `resolvePostUri`, so all three forms work

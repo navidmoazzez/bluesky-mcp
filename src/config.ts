@@ -159,7 +159,7 @@ export function loadConfig(): Config {
  * Pick which account a call acts as.
  *
  * With no hint: the first configured `BLUESKY_DEFAULT_ACCOUNT` that is actually
- * connected, else the first account. Exact handle match beats prefix match —
+ * connected, else the first account. Exact handle match beats prefix match:
  * "brand.example.com" starts with "brand", so a pure prefix search would hand
  * an unnamed post to the wrong account whenever both exist.
  */

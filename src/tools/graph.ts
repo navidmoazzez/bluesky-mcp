@@ -22,7 +22,7 @@ const getProfile = defineTool({
   name: "get_profile",
   title: "Read a profile",
   description:
-    "Full profile for one or more accounts: bio, follower counts, labels, and — when a connected account is available — whether you follow them and whether they follow you. Works without credentials.",
+    "Full profile for one or more accounts: bio, follower counts, labels, and, when a connected account is available, whether you follow them and whether they follow you. Works without credentials.",
   schema: {
     actors: z
       .array(z.string())
@@ -123,7 +123,7 @@ const getRelationships = defineTool({
   name: "get_relationships",
   title: "Check follow relationships",
   description:
-    "For each account named, whether a connected account follows them and whether they follow back. One call for a whole list — use this before a bulk follow or unfollow rather than reading a profile each time.",
+    "For each account named, whether a connected account follows them and whether they follow back. One call for a whole list. Use this before a bulk follow or unfollow rather than reading a profile each time.",
   schema: {
     actors: z.array(z.string()).min(1).max(30).describe("Handles or DIDs to check."),
     ...accountArg,
