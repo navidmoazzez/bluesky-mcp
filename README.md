@@ -37,7 +37,7 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 | 10 | [Your data](#10-your-data) | What is stored and where |
 | 11 | [Risks](#11-risks) | Read this before you install |
 | 12 | [Troubleshooting](#12-troubleshooting) | When something breaks |
-| 13 | [Build from source](#13-build-from-source) | Contributing |
+| 13 | [Build from source](#13-build-from-source) | Run it from a checkout |
 
 ---
 
@@ -618,8 +618,6 @@ npm run typecheck   # tsc --noEmit
 npm run dev         # tsc --watch
 npm test            # vitest, 61 tests
 ```
-
-Pull requests welcome. A change to facet handling, the output format or the video path needs a test.
 
 ---
 
