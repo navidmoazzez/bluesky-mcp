@@ -573,24 +573,21 @@ See [VERSIONS.md](VERSIONS.md).
 
 ## About the author
 
-<img src="https://cdn.navid.media/shared/people/navid-moazzez.jpg" alt="Navid Moazzez" width="72" height="72" align="left" style="border-radius: 50%; margin-right: 16px;" />
-
-**Navid Moazzez** builds AI systems for creators and founders, and this Bluesky MCP server is one piece of that.
-
-<br clear="left" />
+Navid Moazzez is a leading AI business strategist and the host of the [AI Creator Summit](https://summits.navid.me/ai-creator), watched by 100,000+ creators. He helps creators and founders master AI and build their own AI Operating System (AI OS) to automate their business and life. This Bluesky MCP server is one piece of that system.
 
 **Links**
 
 - Personal website: [navid.me](https://navid.me)
 - Store: [navid.bio](https://navid.bio)
-- Facebook: [thenavidm](https://facebook.com/thenavidm)
+- AI OS Starter Kit: [aios.guide](https://aios.guide)
+- AI OS Workshop: [aiosworkshop.com](https://aiosworkshop.com)
+- AI Creator Summit: [summits.navid.me/ai-creator](https://summits.navid.me/ai-creator)
+- AI Tools Library: [aitoolslibrary.io](https://aitoolslibrary.io)
+- Video Gear Guide: [videogear.guide](https://videogear.guide)
+- YouTube: [@thenavidm](https://youtube.com/@thenavidm?sub_confirmation=1) and [@thenavidai](https://youtube.com/@thenavidai?sub_confirmation=1)
 - X: [@thenavidm](https://x.com/thenavidm)
 - Instagram: [@thenavidm](https://instagram.com/thenavidm)
-- TikTok: [@thenavidm](https://tiktok.com/@thenavidm)
-- YouTube: [@thenavidm](https://youtube.com/@thenavidm?sub_confirmation=1)
 - LinkedIn: [thenavidm](https://linkedin.com/in/thenavidm)
-- Threads: [@thenavidm](https://threads.net/@thenavidm)
-- GitHub: [thenavidm](https://github.com/thenavidm)
 
 ## Dependencies
 
