@@ -388,7 +388,11 @@ The format is the idea from [`brianellin/bsky-mcp-server`](https://github.com/br
 
 ## 8. Several accounts
 
-A personal handle and a brand handle from one server:
+A personal handle and a brand handle, from one server. Neither reference implementation supports this at all, so through them switching accounts means restarting with different environment variables.
+
+### Set them up
+
+Get an app password for each account from [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords), signed in as that account, then:
 
 ```bash
 export BLUESKY_ACCOUNTS='[
@@ -398,9 +402,60 @@ export BLUESKY_ACCOUNTS='[
 export BLUESKY_DEFAULT_ACCOUNT=you.bsky.social
 ```
 
-Every tool that acts as someone takes `account`, matched against the handle. Without one, `BLUESKY_DEFAULT_ACCOUNT` decides, falling back to the first configured account. Exact matches beat prefix matches, so `brand.example.com` and `brand.bsky.social` cannot be confused for each other.
+`handle` is the full handle, no `@`. `service` is optional per account, for a self-hosted PDS:
 
-`list_accounts` shows what is connected and which one is the default.
+```json
+{"handle":"you.example.com","app_password":"…","service":"https://pds.example.com"}
+```
+
+In an MCP client config, that goes in `env` as a single JSON string:
+
+```json
+{
+  "mcpServers": {
+    "bluesky": {
+      "command": "npx",
+      "args": ["-y", "@thenavidm/bluesky-mcp"],
+      "env": {
+        "BLUESKY_ACCOUNTS": "[{\"handle\":\"you.bsky.social\",\"app_password\":\"xxxx-xxxx-xxxx-xxxx\"},{\"handle\":\"brand.example.com\",\"app_password\":\"yyyy-yyyy-yyyy-yyyy\"}]",
+        "BLUESKY_DEFAULT_ACCOUNT": "you.bsky.social"
+      }
+    }
+  }
+}
+```
+
+`BLUESKY_ACCOUNTS` takes priority over the single-account `BLUESKY_IDENTIFIER` and `BLUESKY_APP_PASSWORD`, so you can leave those set without them interfering.
+
+### Using them
+
+`list_accounts` shows what is connected and which one acts by default. Every tool that acts as someone takes an optional `account`:
+
+```
+create_post(text: "…", account: "brand.example.com", confirm: true)
+```
+
+Reads that do not act as anyone, like `get_profile` or `get_author_feed`, ignore it.
+
+### How a name is matched
+
+In order:
+
+1. **Exact handle**: `brand.example.com`
+2. **DID**, if you pass one
+3. **Prefix**, when it is unambiguous
+
+Exact beats prefix deliberately. `brand.example.com` starts with `brand`, so a prefix-first search would hand an unnamed post to the wrong account whenever both `brand.example.com` and `brand.bsky.social` exist. If nothing matches, the call fails and lists what is connected rather than guessing.
+
+### Which account acts by default
+
+`BLUESKY_DEFAULT_ACCOUNT`, falling back to the first account in the array. It accepts a comma-separated list, so you can express a preference order that survives one of them being removed:
+
+```bash
+export BLUESKY_DEFAULT_ACCOUNT=you.bsky.social,brand.example.com
+```
+
+Sessions are cached and refreshed per account independently, so having several connected costs one login each rather than one per call.
 
 ---
 
