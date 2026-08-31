@@ -192,20 +192,72 @@ It checks the network, then each account's credentials, then a real read and a r
 
 **Never use your account password.** Bluesky has app passwords: revocable, scoped, and safe to hand to a program.
 
-1. Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords).
-2. **Add App Password**, name it something you will recognise, e.g. `mcp`.
-3. Copy the `xxxx-xxxx-xxxx-xxxx` value. It is shown once.
+### Have an agent do it
+
+Paste this into Claude Code, Cursor, or any agent with terminal access, in the folder you want to set it up from:
+
+```
+Set up the Bluesky MCP server for me.
+
+1. Open https://bsky.app/settings/app-passwords in my browser and tell me to
+   create one named "mcp", then wait for me to paste the xxxx-xxxx-xxxx-xxxx
+   value back. Do not proceed without it.
+2. Ask me for my full Bluesky handle, including the domain, e.g. me.bsky.social.
+3. Register the server with my MCP client, passing BLUESKY_IDENTIFIER and
+   BLUESKY_APP_PASSWORD as environment variables. For Claude Code that is:
+     claude mcp add bluesky -e BLUESKY_IDENTIFIER=<handle> \
+       -e BLUESKY_APP_PASSWORD=<password> -- npx -y @thenavidm/bluesky-mcp
+   For any other client, write the equivalent JSON into its MCP config file.
+4. Run `npx -y @thenavidm/bluesky-mcp doctor` and show me the output.
+5. If every line says ok, tell me to restart the client. If any line says FAIL,
+   tell me what it says and what to do about it. Do not try to guess my
+   password or handle, and do not post anything.
+```
+
+It will stop and wait at step 1, because only you can create the app password.
+
+### Or do it yourself
+
+**1. Create an app password.**
+
+Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords), signed in as the account you want to connect. Click **Add App Password**, name it something you will recognise later such as `mcp`, and copy the `xxxx-xxxx-xxxx-xxxx` value. It is shown once.
+
+An app password is revocable from that same page and cannot change your email or password. Your real password can, which is why it never goes near this.
+
+**2. Set the two variables.**
 
 ```bash
 export BLUESKY_IDENTIFIER=you.bsky.social   # your full handle, no @
 export BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
 ```
 
-Revoke it on that same page at any time; nothing else about your account is affected.
+The handle needs its domain. `alice` will not resolve; `alice.bsky.social` will.
 
-**Self-hosted PDS:** set `BLUESKY_SERVICE_URL=https://your.pds`.
+**3. Register the server.** See [section 2](#2-install) for your client.
 
-**No credentials at all** is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `search_actors`, `search_feeds`, `get_feed`, `get_trends`, `get_followers`, `get_follows`, `get_lists` and the rest of the public reads work against Bluesky's public API with nothing configured. Only `search_posts`, your own timeline, notifications and every write need a session.
+**4. Check it.**
+
+```bash
+npx -y @thenavidm/bluesky-mcp doctor
+```
+
+Expect four lines of `ok`: the public API reachable, the account configured, it authenticates, and it can write. A `FAIL` on the last one usually means the app password was mistyped.
+
+**5. Restart your client** so it picks up the new server, then ask it `whoami`.
+
+### Self-hosted PDS
+
+```bash
+export BLUESKY_SERVICE_URL=https://your.pds
+```
+
+### No credentials at all
+
+This is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `search_actors`, `search_feeds`, `get_feed`, `get_trends`, `get_followers`, `get_follows` and `get_lists` all work against Bluesky's public API with nothing configured. Only `search_posts`, your own timeline, notifications and every write need a session.
+
+### Revoking
+
+[bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords). Deleting it there kills it immediately, and nothing else about your account is affected.
 
 ---
 
