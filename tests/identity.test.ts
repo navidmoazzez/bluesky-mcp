@@ -43,9 +43,9 @@ describe("parseAtUri", () => {
     });
   });
 
-  it("accepts did:web, which the reference server rejects", () => {
-    // brianellin's get-post-thread requires `at://did:plc:`, so every post on a
-    // self-hosted did:web PDS is unreachable through it.
+  it("accepts did:web, not only did:plc", () => {
+    // Gating on `at://did:plc:` is the easy shortcut, and it makes every post on
+    // a self-hosted did:web PDS unreachable.
     expect(parseAtUri("at://did:web:example.com/app.bsky.feed.post/3lb").repo).toBe(
       "did:web:example.com",
     );

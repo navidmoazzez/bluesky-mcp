@@ -76,8 +76,8 @@ describe("mention detection", () => {
   });
 
   it("ignores a word that is not a domain", () => {
-    // Neither reference server posts mentions at all; the failure mode to avoid
-    // when adding them is turning "@everyone" into a lookup for a handle.
+    // The failure mode to avoid when detecting mentions is turning "@everyone"
+    // into a lookup for a handle that cannot exist.
     const { mentions } = detectFacets("hey @everyone");
     expect(mentions).toHaveLength(0);
   });
