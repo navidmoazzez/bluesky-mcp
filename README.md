@@ -26,8 +26,8 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 | | Section | |
 |---|---|---|
 | 1 | [What you can ask it](#1-what-you-can-ask-it) | Real prompts, not features |
-| 2 | [Install](#2-install) | Every client, copy and paste |
-| 3 | [Connect your account](#3-connect-your-account) | App passwords, in one minute |
+| 2 | [Set up your account](#2-set-up-your-account) | Get your app password first |
+| 3 | [Install](#3-install) | Every client, copy and paste |
 | 4 | [Tools](#4-tools) | All 41, with arguments |
 | 5 | [Writing safely](#5-writing-safely) | Why posting asks twice |
 | 6 | [Writing posts](#6-writing-posts) | Links, mentions, media, threads |
@@ -58,7 +58,84 @@ The last one is the point. Bluesky exposes quotes, reposts and replies as separa
 
 ---
 
-## 2. Install
+## 2. Set up your account
+
+**Never use your account password.** Bluesky has app passwords: revocable, scoped, and safe to hand to a program.
+
+### Have an agent do it
+
+The agent cannot sign in to Bluesky for you. Only you can create the app
+password. What it can do is walk you through it, then wire up the config and
+verify the connection, which is the fiddly part.
+
+Paste this into Claude Code, Cursor, or any agent with terminal access, in the folder you want to set it up from:
+
+```
+Set up the Bluesky MCP server for me.
+
+1. Tell me to open https://bsky.app/settings/app-passwords, sign in, click
+   Add App Password, name it "mcp", and paste the xxxx-xxxx-xxxx-xxxx value
+   back to you. You cannot do this part yourself, so stop and wait for it.
+2. Ask me for my full Bluesky handle, including the domain, e.g. me.bsky.social.
+3. Register the server with my MCP client, passing BLUESKY_IDENTIFIER and
+   BLUESKY_APP_PASSWORD as environment variables. For Claude Code that is:
+     claude mcp add bluesky -e BLUESKY_IDENTIFIER=<handle> \
+       -e BLUESKY_APP_PASSWORD=<password> -- npx -y @thenavidm/bluesky-mcp
+   For any other client, write the equivalent JSON into its MCP config file.
+4. Run `npx -y @thenavidm/bluesky-mcp doctor` and show me the output.
+5. If every line says ok, tell me to restart the client. If any line says FAIL,
+   tell me what it says and what to do about it. Do not try to guess my
+   password or handle, and do not post anything.
+```
+
+It will stop and wait at step 1, because only you can create the app password.
+
+### Or do it yourself
+
+**1. Create an app password.**
+
+Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords), signed in as the account you want to connect. Click **Add App Password**, name it something you will recognise later such as `mcp`, and copy the `xxxx-xxxx-xxxx-xxxx` value. It is shown once.
+
+An app password is revocable from that same page and cannot change your email or password. Your real password can, which is why it never goes near this.
+
+**2. Set the two variables.**
+
+```bash
+export BLUESKY_IDENTIFIER=you.bsky.social   # your full handle, no @
+export BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
+```
+
+The handle needs its domain. `alice` will not resolve; `alice.bsky.social` will.
+
+**3. Register the server.** See [section 3](#3-install) for your client.
+
+**4. Check it.**
+
+```bash
+npx -y @thenavidm/bluesky-mcp doctor
+```
+
+Expect four lines of `ok`: the public API reachable, the account configured, it authenticates, and it can write. A `FAIL` on the last one usually means the app password was mistyped.
+
+**5. Restart your client** so it picks up the new server, then ask it `whoami`.
+
+### Self-hosted PDS
+
+```bash
+export BLUESKY_SERVICE_URL=https://your.pds
+```
+
+### No credentials at all
+
+This is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `search_actors`, `search_feeds`, `get_feed`, `get_trends`, `get_followers`, `get_follows` and `get_lists` all work against Bluesky's public API with nothing configured. Only `search_posts`, your own timeline, notifications and every write need a session.
+
+### Revoking
+
+[bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords). Deleting it there kills it immediately, and nothing else about your account is affected.
+
+---
+
+## 3. Install
 
 Node 20 or newer. Nothing else.
 
@@ -185,79 +262,6 @@ npx -y @thenavidm/bluesky-mcp doctor
 ```
 
 It checks the network, then each account's credentials, then a real read and a real write scope, and names the fix for whichever one fails.
-
----
-
-## 3. Connect your account
-
-**Never use your account password.** Bluesky has app passwords: revocable, scoped, and safe to hand to a program.
-
-### Have an agent do it
-
-Paste this into Claude Code, Cursor, or any agent with terminal access, in the folder you want to set it up from:
-
-```
-Set up the Bluesky MCP server for me.
-
-1. Open https://bsky.app/settings/app-passwords in my browser and tell me to
-   create one named "mcp", then wait for me to paste the xxxx-xxxx-xxxx-xxxx
-   value back. Do not proceed without it.
-2. Ask me for my full Bluesky handle, including the domain, e.g. me.bsky.social.
-3. Register the server with my MCP client, passing BLUESKY_IDENTIFIER and
-   BLUESKY_APP_PASSWORD as environment variables. For Claude Code that is:
-     claude mcp add bluesky -e BLUESKY_IDENTIFIER=<handle> \
-       -e BLUESKY_APP_PASSWORD=<password> -- npx -y @thenavidm/bluesky-mcp
-   For any other client, write the equivalent JSON into its MCP config file.
-4. Run `npx -y @thenavidm/bluesky-mcp doctor` and show me the output.
-5. If every line says ok, tell me to restart the client. If any line says FAIL,
-   tell me what it says and what to do about it. Do not try to guess my
-   password or handle, and do not post anything.
-```
-
-It will stop and wait at step 1, because only you can create the app password.
-
-### Or do it yourself
-
-**1. Create an app password.**
-
-Go to [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords), signed in as the account you want to connect. Click **Add App Password**, name it something you will recognise later such as `mcp`, and copy the `xxxx-xxxx-xxxx-xxxx` value. It is shown once.
-
-An app password is revocable from that same page and cannot change your email or password. Your real password can, which is why it never goes near this.
-
-**2. Set the two variables.**
-
-```bash
-export BLUESKY_IDENTIFIER=you.bsky.social   # your full handle, no @
-export BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
-```
-
-The handle needs its domain. `alice` will not resolve; `alice.bsky.social` will.
-
-**3. Register the server.** See [section 2](#2-install) for your client.
-
-**4. Check it.**
-
-```bash
-npx -y @thenavidm/bluesky-mcp doctor
-```
-
-Expect four lines of `ok`: the public API reachable, the account configured, it authenticates, and it can write. A `FAIL` on the last one usually means the app password was mistyped.
-
-**5. Restart your client** so it picks up the new server, then ask it `whoami`.
-
-### Self-hosted PDS
-
-```bash
-export BLUESKY_SERVICE_URL=https://your.pds
-```
-
-### No credentials at all
-
-This is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `search_actors`, `search_feeds`, `get_feed`, `get_trends`, `get_followers`, `get_follows` and `get_lists` all work against Bluesky's public API with nothing configured. Only `search_posts`, your own timeline, notifications and every write need a session.
-
-### Revoking
-
-[bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords). Deleting it there kills it immediately, and nothing else about your account is affected.
 
 ---
 
@@ -706,11 +710,7 @@ Navid Moazzez is a leading AI business strategist and the host of the [AI Creato
 
 - Personal website: [navid.me](https://navid.me)
 - Store: [navid.bio](https://navid.bio)
-- AI OS Starter Kit: [aios.guide](https://aios.guide)
-- AI OS Workshop: [aiosworkshop.com](https://aiosworkshop.com)
 - AI Creator Summit: [summits.navid.me/ai-creator](https://summits.navid.me/ai-creator)
-- AI Tools Library: [aitoolslibrary.io](https://aitoolslibrary.io)
-- Video Gear Guide: [videogear.guide](https://videogear.guide)
 - YouTube: [@thenavidm](https://youtube.com/@thenavidm?sub_confirmation=1) and [@thenavidai](https://youtube.com/@thenavidai?sub_confirmation=1)
 - X: [@thenavidm](https://x.com/thenavidm)
 - Instagram: [@thenavidm](https://instagram.com/thenavidm)
