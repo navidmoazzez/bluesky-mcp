@@ -314,6 +314,23 @@ const setReplyPermissions = defineTool({
       );
     }
 
+    // A threadgate only takes effect on the post that starts a thread. Bluesky
+    // accepts one written against a reply and then ignores it, so refuse here
+    // rather than reporting a change that never happens.
+    const record = await ctx.client.call<{ value?: { reply?: unknown } }>(
+      chosen,
+      "com.atproto.repo.getRecord",
+      { query: { repo, collection: "app.bsky.feed.post", rkey } },
+    );
+    if (record.value?.reply) {
+      throw new ValidationError(
+        "That post is a reply, and reply controls only apply to the post that starts a thread. Whoever wrote the thread's first post controls who can reply to it.",
+        400,
+        "(local)",
+        "InvalidRequest",
+      );
+    }
+
     const allow =
       who === "everyone"
         ? undefined

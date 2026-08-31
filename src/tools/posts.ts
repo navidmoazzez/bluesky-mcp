@@ -182,17 +182,28 @@ async function replyRefs(
 /** The two arguments that produce gate records, on both create_post and create_thread. */
 type GateArgs = Pick<PostArgs, "reply_control" | "allow_quotes">;
 
-/** Write the threadgate and postgate records that carry reply and quote controls. */
+/**
+ * Write the threadgate and postgate records that carry reply and quote controls.
+ *
+ * A threadgate only has an effect on a thread's **root**. Bluesky accepts one
+ * written against a reply and then ignores it forever, so a post made with
+ * `reply_to` reports that the control was not applied rather than pretending
+ * it was. `postUri` is always a post we just created, so the repo is ours.
+ */
 async function applyGates(
   ctx: ToolContext,
   chosen: Account,
   postUri: string,
   args: GateArgs,
+  isReply: boolean,
 ): Promise<Record<string, unknown>> {
   const applied: Record<string, unknown> = {};
   const { repo, rkey } = parseAtUri(postUri);
 
-  if (args.reply_control && args.reply_control !== "everyone") {
+  if (isReply && args.reply_control && args.reply_control !== "everyone") {
+    applied.reply_control_ignored =
+      "Reply controls only apply to the post that starts a thread. This is a reply, so the thread's original author controls who can reply.";
+  } else if (args.reply_control && args.reply_control !== "everyone") {
     const allow =
       args.reply_control === "nobody"
         ? []
@@ -301,7 +312,7 @@ const createPost = defineTool({
       },
     );
 
-    const gates = await applyGates(ctx, chosen, result.uri, args);
+    const gates = await applyGates(ctx, chosen, result.uri, args, Boolean(args.reply_to));
 
     return {
       uri: result.uri,
@@ -392,7 +403,13 @@ const createThread = defineTool({
       posted.push({ uri: result.uri, cid: result.cid, url: webUrl(result.uri, session.handle) });
     }
 
-    const gates = root ? await applyGates(ctx, chosen, root.uri, args) : {};
+    // Gate the first post *we* made. When the thread is a reply, `root` is
+    // someone else's post and writing a threadgate keyed to it would target
+    // their repository.
+    const ours = posted[0];
+    const gates = ours
+      ? await applyGates(ctx, chosen, ours.uri, args, Boolean(args.reply_to))
+      : {};
 
     return {
       parts: posted.length,
