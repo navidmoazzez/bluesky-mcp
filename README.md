@@ -432,7 +432,7 @@ src/
     accounts.ts posts.ts engage.ts read.ts discover.ts graph.ts notifications.ts
 ```
 
-Two dependencies: the MCP SDK and zod. Not `@atproto/api` — the parts of it this needs are facet detection (about forty lines, copied from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the whole generated lexicon client for them.
+Two dependencies: the MCP SDK and zod. Not `@atproto/api` — the parts of it this needs are facet detection (about forty lines, taken from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the whole generated lexicon client for them.
 
 **Sessions.** One per account, cached, refreshed with `com.atproto.server.refreshSession` when the access JWT's `exp` passes, and only re-minted from the app password if the refresh itself fails. `createSession` is rate-limited hard; a server that calls it per request starts failing on a busy day.
 
@@ -597,7 +597,7 @@ Navid Moazzez is an AI business strategist, an AI OS builder, and the creator of
 | [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) | MIT | The MCP server and transports |
 | [zod](https://github.com/colinhacks/zod) | MIT | Tool argument schemas and validation |
 
-Facet detection regexes are copied verbatim from [`@atproto/api`](https://github.com/bluesky-social/atproto) (MIT) so that segmentation here matches the official client exactly. The package itself is not a dependency.
+Facet detection regexes are taken from [`@atproto/api`](https://github.com/bluesky-social/atproto) (MIT) so that segmentation here matches the official client exactly. One edit: the URL pattern's named capture group is unnamed and read by index instead, because a named group needs an ES2018 target and these files also compile inside an app that targets ES2017. Same pattern, same groups, same matches. The package itself is not a dependency.
 
 ## License
 

@@ -42,7 +42,9 @@ export async function fetchMedia(source: string, timeoutMs = 30_000): Promise<Fe
   const trimmed = source.trim();
 
   if (trimmed.startsWith("data:")) {
-    const match = trimmed.match(/^data:([^;,]+)?(;base64)?,(.*)$/s);
+    // [\s\S] rather than the `s` flag: dotAll needs an ES2018 target and this
+    // file also compiles inside an app that targets ES2017.
+    const match = trimmed.match(/^data:([^;,]+)?(;base64)?,([\s\S]*)$/);
     if (!match) throw new ValidationError("Malformed data: URI.", 400, "(local)", "InvalidRequest");
     const contentType = match[1] || "application/octet-stream";
     const bytes = match[2]

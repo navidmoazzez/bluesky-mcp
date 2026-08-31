@@ -71,8 +71,10 @@ single most consequential gap in either repository.
 
 Ours builds facets for links, hashtags and mentions, resolving each mention to
 a DID before publishing (`src/content/facets.ts`). The detection regexes are
-copied verbatim from `@atproto/api`'s `detectFacets` so a post written here
-segments exactly the way the official client would segment it.
+taken from `@atproto/api`'s `detectFacets` so a post written here segments
+exactly the way the official client would segment it — unchanged apart from the
+URL pattern's named capture group, which is unnamed and read by index so the
+file also compiles at an ES2017 target.
 
 ### Replies detach from their thread
 

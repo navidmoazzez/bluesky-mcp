@@ -20,7 +20,8 @@ a file and line reference for every claim.
 else, so every link and every mention it publishes is inert grey text.
 `berlinbra/bluesky-mcp` cannot post at all. This server builds facets for links,
 hashtags and mentions, resolving each mention to a DID first. The detection
-regexes are copied verbatim from `@atproto/api`'s `detectFacets`.
+regexes are taken from `@atproto/api`'s `detectFacets`, unchanged apart from a
+named capture group read by index instead so the file compiles at ES2017.
 
 **Thread roots.** A reply must name the thread's root, not its parent. The
 reference sets both to the parent, which produces a reply Bluesky accepts and

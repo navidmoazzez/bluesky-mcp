@@ -84,7 +84,7 @@ export class WriteGuard {
       outcome,
     });
     try {
-      appendFileSync(this.config.auditPath, `${line}\n`);
+      appendFileSync(this.config.auditPath, `${line}\n`, { mode: 0o600 });
     } catch {
       // A failing audit log must never take the tool call down with it.
     }

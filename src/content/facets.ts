@@ -28,11 +28,16 @@ export type Facet = {
   features: Array<Record<string, unknown>>;
 };
 
-// Verbatim from @atproto/api packages/api/src/rich-text/util.ts, so detection
-// here and in the official client cannot drift.
+// From @atproto/api packages/api/src/rich-text/util.ts, so detection here and in
+// the official client cannot drift. The one edit: URL_REGEX's `(?<domain>…)`
+// named group is unnamed here and read as group 5 instead, because a named
+// capture group needs an ES2018 target and this file also compiles inside an
+// app that targets ES2017. Same pattern, same groups, same matches.
 const MENTION_REGEX = /(^|\s|\()(@)([a-zA-Z0-9.-]+)(\b)/g;
 const URL_REGEX =
-  /(^|\s|\()((https?:\/\/[\S]+)|((?<domain>[a-z][a-z0-9]*(\.[a-z0-9]+)+)[\S]*))/gim;
+  /(^|\s|\()((https?:\/\/[\S]+)|(([a-z][a-z0-9]*(\.[a-z0-9]+)+)[\S]*))/gim;
+/** Index of URL_REGEX's bare-domain group, the one that was `(?<domain>…)`. */
+const URL_DOMAIN_GROUP = 5;
 const TRAILING_PUNCTUATION_REGEX = /\p{P}+$/gu;
 const TAG_REGEX =
   /(^|\s)[#＃]((?!️)[^\s­⁠ ​‌‍⃢]*[^\d\s\p{P}­⁠ ​‌‍⃢]+[^\s­⁠ ​‌‍⃢]*)?/gu;
@@ -82,7 +87,7 @@ export function detectFacets(
     if (!raw) continue;
     let uri = raw;
     if (!uri.startsWith("http")) {
-      const domain = match.groups?.domain;
+      const domain = match[URL_DOMAIN_GROUP];
       if (!domain) continue;
       if (!bareDomains || !hasCommonTld(domain)) continue;
       uri = `https://${uri}`;
