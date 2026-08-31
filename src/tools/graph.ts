@@ -5,9 +5,9 @@
  * one call to `getProfiles`, and a model comparing accounts otherwise makes
  * five round trips because the tool only offered one at a time.
  *
- * `get_relationships` has no equivalent in either reference server and answers
- * the question that actually matters before an action: do I follow them, do
- * they follow me, have either of us blocked the other.
+ * `get_relationships` answers the question that actually matters before an
+ * action: do I follow them, do they follow me, have either of us blocked the
+ * other.
  */
 
 import { z } from "zod";

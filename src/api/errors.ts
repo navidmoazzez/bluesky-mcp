@@ -4,10 +4,9 @@
  * The AT Protocol returns a consistent `{error, message}` envelope, and the
  * `error` field is a machine-readable name such as `ExpiredToken`,
  * `RateLimitExceeded` or `InvalidRequest`, and it says far more than the status
- * code does. Both
- * reference servers throw the status away and hand the model a bare string, so
- * a model that could have refreshed a token or resized an image instead just
- * gives up. Each failure here keeps the name, the status and the endpoint, and
+ * code does. Throw that away and hand the model a bare string, and a model
+ * that could have refreshed a token or resized an image instead just gives up.
+ * Each failure here keeps the name, the status and the endpoint, and
  * carries a message naming the actual fix.
  */
 

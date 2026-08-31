@@ -159,9 +159,8 @@ async function buildRecord(
  * The `{root, parent}` pair a reply needs.
  *
  * A reply must name the thread **root**, not just its parent. Setting root to
- * the parent, which is what brianellin's server does, produces a post that
- * detaches from the conversation: it shows as a reply to one post while the
- * thread it belongs to never lists it.
+ * the parent produces a post that detaches from the conversation: it shows as a
+ * reply to one post while the thread it belongs to never lists it.
  */
 async function replyRefs(
   ctx: ToolContext,

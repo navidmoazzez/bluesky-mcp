@@ -1,10 +1,9 @@
 /**
  * Notifications.
  *
- * Neither reference server can mark anything read, which means an agent asked
- * to "deal with my mentions" reads the same twenty every time it runs. Bluesky
- * tracks a single `seenAt` timestamp per account, so marking read is one call
- * so marking read is one call. The omission is not a difficulty, just a gap.
+ * Without a way to mark anything read, an agent asked to "deal with my
+ * mentions" reads the same twenty every time it runs. Bluesky tracks a single
+ * `seenAt` timestamp per account, so marking read is one call.
  */
 
 import { z } from "zod";

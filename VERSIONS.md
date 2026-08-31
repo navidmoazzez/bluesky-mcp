@@ -10,73 +10,55 @@
 
 First release. TypeScript, 41 tools, 61 tests.
 
-Written after reading both existing Bluesky MCP servers in full from source.
-The audit is in [docs/reference-audit.md](docs/reference-audit.md) and carries
-a file and line reference for every claim.
+### Posting
 
-### The things that were wrong elsewhere
+Facets are built for links, hashtags and mentions, with each mention resolved to
+a DID before publishing. Bluesky renders nothing on its own: post the raw string
+and every link and mention is inert grey text, with no error to notice. The
+detection regexes are taken from `@atproto/api`'s `detectFacets`, unchanged apart
+from a named capture group read by index instead so the file compiles at ES2017.
 
-**Facets.** `brianellin/bsky-mcp-server` sends `{text, createdAt}` and nothing
-else, so every link and every mention it publishes is inert grey text.
-`berlinbra/bluesky-mcp` cannot post at all. This server builds facets for links,
-hashtags and mentions, resolving each mention to a DID first. The detection
-regexes are taken from `@atproto/api`'s `detectFacets`, unchanged apart from a
-named capture group read by index instead so the file compiles at ES2017.
+A reply names the thread's root, not just its parent. Naming only the parent
+produces a post Bluesky accepts and then never lists in the thread it belongs to.
 
-**Thread roots.** A reply must name the thread's root, not its parent. The
-reference sets both to the parent, which produces a reply Bluesky accepts and
-then never lists in the thread it belongs to.
+Images carry alt text and a measured aspect ratio, so a tall screenshot is not
+letterboxed. Video goes through the transcoding service: `getUploadLimits`, a
+service-auth token scoped to it, `uploadVideo`, then polling `getJobStatus`. A
+plain `uploadBlob` publishes cleanly and then plays for nobody.
 
-**Video.** `com.atproto.repo.uploadBlob` accepts a video and returns 200, and
-the resulting post plays for nobody because nothing transcoded it. The real
-path is `getUploadLimits`, then a service-auth token scoped to the video
-service, then `uploadVideo`, then polling `getJobStatus`. Neither reference
-implements video at all.
+`create_thread` validates every part before posting any of them, so a thread
+never half-publishes because part four was too long.
 
-**Grapheme counting.** The 300-character limit is 300 *graphemes* and 3,000
-*bytes*. `z.string().max(300)` counts UTF-16 code units, so it rejects a legal
-post: one family emoji is one character to Bluesky and eleven to JavaScript.
-Both limits are checked separately.
+### The character limit
 
-**Escaping.** The reference format escapes attributes in two of its three
-rendering paths. Ours has one renderer and escapes everything.
+300 *graphemes* and 3,000 *bytes*, checked separately. `z.string().max(300)`
+counts UTF-16 code units, so it rejects a legal post: one family emoji is one
+character to Bluesky and eleven to JavaScript.
 
-**Timestamps.** `toLocaleString()` renders in the host's locale, so the same
-post reads differently on two machines. Ours is ISO-8601 UTC throughout.
+### Output
 
-**Sessions.** `berlinbra` constructs a client and logs in on every tool call.
-`brianellin` logs in once at startup and never refreshes, so it stops working
-after about two hours. Ours caches per account and refreshes.
-
-### The thing that was right elsewhere
-
-`bsky-mcp-server`'s structured XML output. Measured on a 50-post feed: 49,839
-characters against 521,426 for the raw JSON a naive server returns, roughly
-12,500 tokens instead of 130,000. The idea and the broad tag shape are taken
-wholesale, with the fixes above plus `recordWithMedia` support, placeholders for
-deleted and blocked posts, moderation labels, cursors on the root element, and
-a feed that stays in the order the server sent it.
+Feeds, threads and search results come back as tagged text rather than raw API
+JSON. Measured on a 50-post feed: 49,839 characters against 521,426, roughly
+12,500 tokens instead of 130,000. One renderer, every attribute escaped, ISO-8601
+UTC timestamps so two can be compared, a repost wrapping the original rather than
+flattening it, placeholders for deleted and blocked posts, and moderation labels
+surfaced.
 
 ### Tools
 
-41, against 19 and 8.
-
-New relative to both references: `create_thread`, `delete_post`,
-`unlike_post`, `unrepost`, `unfollow`, `mute_account`, `unmute_account`,
-`block_account`, `unblock_account`, `set_reply_permissions`, `get_quotes`,
-`get_reposted_by`, `get_relationships`, `get_lists`, `get_list_members`,
-`get_notifications`, `get_unread_count`, `mark_notifications_seen`,
-`get_suggested_follows`, `list_accounts`, `whoami`, `get_video_job_status`.
-
-Every action has its inverse. Neither reference could undo anything.
+41. Every action has its inverse: `unlike_post`, `unrepost`, `unfollow`,
+`unmute_account`, `unblock_account`. Plus `create_thread`, `delete_post`,
+`set_reply_permissions`, `get_quotes`, `get_relationships`, `get_lists`,
+`get_notifications`, `mark_notifications_seen`, `get_suggested_follows`,
+`list_accounts`, `whoami`.
 
 ### Safety
 
 `create_post`, `create_thread`, `delete_post` and `block_account` need
-`confirm: true`. `BLUESKY_READ_ONLY=1` removes every write from the tool list.
-`BLUESKY_ALLOW_DESTRUCTIVE=0` keeps likes and follows but blocks posting and
-deleting. `BLUESKY_AUDIT_LOG` records every attempted write. Every tool carries
-MCP annotations. Neither reference guards anything.
+`confirm: true`. `BLUESKY_READ_ONLY=1` removes every write from the tool list,
+leaving 26 read tools. `BLUESKY_ALLOW_DESTRUCTIVE=0` keeps likes and follows but
+blocks posting and deleting. `BLUESKY_AUDIT_LOG` records every attempted write,
+mode 0600. Every tool carries MCP annotations.
 
 ### Multi-account
 
@@ -87,10 +69,12 @@ cannot be confused.
 
 ### Reliability
 
-Sessions cached and refreshed. 429 and 5xx retried with jittered backoff
-honouring `ratelimit-reset`. Per-request timeout. A minimum interval between
-requests so a paginating tool stays polite. Reads that need no session go to the
-public appview, so the server is useful before it is configured.
+Sessions cached per account and refreshed with `com.atproto.server.refreshSession`
+rather than re-minted, because `createSession` is rate limited hard and an access
+JWT lasts about two hours. 429 and 5xx retried with jittered backoff honouring
+`ratelimit-reset`. Per-request timeout, and a minimum interval between requests so
+a paginating tool stays polite. Reads that need no session go to the public
+appview, so the server is useful before it is configured.
 
 ### Shared with HQ
 

@@ -3,10 +3,9 @@
  *
  * Bluesky renders nothing on its own. A URL in a post is grey text unless a
  * facet marks its byte range; an @mention is grey text unless a facet carries
- * the mentioned account's **DID**, not its handle. This is the single largest
- * gap in both reference servers: berlinbra's cannot post at all, and
- * brianellin's posts the raw string with no facets, so every link and every
- * mention it publishes is dead text.
+ * the mentioned account's **DID**, not its handle. Post the raw string without
+ * facets and every link and mention you publish is dead text, with no error to
+ * notice.
  *
  * The detection regexes are the ones from @atproto/api's `detectFacets`, kept
  * deliberately identical so a post written here segments the same way the

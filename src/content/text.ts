@@ -7,8 +7,8 @@
  *   - facet offsets are **UTF-8 byte** positions
  *   - JavaScript string indices are **UTF-16 code units**
  *
- * `z.string().max(300)`, which is what brianellin's server uses, counts UTF-16
- * code units, so it rejects a perfectly legal post: "👨‍👩‍👧‍👦" is one grapheme
+ * `z.string().max(300)` counts UTF-16 code units, so it rejects a perfectly
+ * legal post: "👨‍👩‍👧‍👦" is one grapheme
  * and eleven code units, meaning a post of 28 family emoji is refused locally
  * while Bluesky would have accepted it. In the other direction a naive byte
  * count would let a 300-grapheme CJK post through the local check and be

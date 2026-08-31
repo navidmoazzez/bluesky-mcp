@@ -5,10 +5,9 @@
  * public appview returns 403 for it, which is easy to mistake for broken
  * credentials, so the tool says so rather than passing the 403 through.
  *
- * `get_trends` reads the *current* response shape. brianellin's version prints
- * `topic.postCount` and `topic.startTime`, neither of which the endpoint
- * returns any more, so its trending output today is a list of topics each
- * annotated "undefined posts, Invalid Date".
+ * `get_trends` reads the *current* response shape. The endpoint used to return
+ * `postCount` and `startTime` and no longer does, so anything still reading
+ * those fields prints "undefined posts" against every topic.
  */
 
 import { z } from "zod";

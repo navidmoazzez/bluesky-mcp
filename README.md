@@ -36,9 +36,8 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 | 9 | [How it works](#9-how-it-works) | Architecture |
 | 10 | [Your data](#10-your-data) | What is stored and where |
 | 11 | [Risks](#11-risks) | Read this before you install |
-| 12 | [Compared to the alternatives](#12-compared-to-the-alternatives) | The other two servers |
-| 13 | [Troubleshooting](#13-troubleshooting) | When something breaks |
-| 14 | [Build from source](#14-build-from-source) | Contributing |
+| 12 | [Troubleshooting](#12-troubleshooting) | When something breaks |
+| 13 | [Build from source](#13-build-from-source) | Contributing |
 
 ---
 
@@ -65,7 +64,7 @@ Node 20 or newer. Nothing else.
 
 > Not released to npm yet. The `npx` commands below work once `v1.0.0` is
 > published. Until then, install from source with
-> [section 14](#14-build-from-source) and point your client at
+> [section 13](#13-build-from-source) and point your client at
 > `node /path/to/bluesky-mcp/dist/index.js`.
 
 ### Claude Code
@@ -382,13 +381,12 @@ Feeds, threads and search results come back as tagged text rather than API JSON.
 
 Post text is reproduced exactly, including its own line breaks. Nothing indents inside `<content>`.
 
-The format is the idea from [`brianellin/bsky-mcp-server`](https://github.com/brianellin/bsky-mcp-server), which got there first and documented it well. [What we changed](docs/reference-audit.md).
 
 ---
 
 ## 8. Several accounts
 
-A personal handle and a brand handle, from one server. Neither reference implementation supports this at all, so through them switching accounts means restarting with different environment variables.
+A personal handle and a brand handle, from one server, without restarting anything to switch between them.
 
 ### Set them up
 
@@ -527,40 +525,7 @@ If any of that is more than you want to hand an agent, `BLUESKY_READ_ONLY=1` giv
 
 ---
 
-## 12. Compared to the alternatives
-
-Two other Bluesky MCP servers exist. Both were read in full from source before this was written; the detailed comparison, with line references, is in [docs/reference-audit.md](docs/reference-audit.md).
-
-| | [brianellin](https://github.com/brianellin/bsky-mcp-server) | [berlinbra](https://github.com/berlinbra/bluesky-mcp) | this |
-|---|:---:|:---:|:---:|
-| Tools | 19 | 8 | 41 |
-| Language | TypeScript | Python | TypeScript |
-| Structured output | ✅ | – | ✅ |
-| Post with working links / mentions | – | – | ✅ |
-| Correct thread root on a reply | ✗ | – | ✅ |
-| Images, video, link cards, quotes | – | – | ✅ |
-| Threads posted as a unit | – | – | ✅ |
-| Undo anything | – | – | ✅ |
-| Delete a post | – | – | ✅ |
-| Mute / block | – | – | ✅ |
-| Reply and quote controls | – | – | ✅ |
-| Notifications | – | – | ✅ |
-| Several accounts | – | – | ✅ |
-| Session refresh | – | – | ✅ |
-| Works with no credentials | – | – | ✅ |
-| Confirmation on public writes | – | – | ✅ |
-| Read-only mode | – | – | ✅ |
-| Tests | – | – | 61 |
-
-`✗` means present but wrong; `–` means absent.
-
-The short version. `bsky-mcp-server` reads Bluesky well, and its structured output is the right answer that we adopted, but its `create-post` sends no facets, so every link and mention it publishes is dead text, and it sets a reply's root to its parent, which detaches the reply from its thread. `bluesky-mcp` returns raw JSON, logs in again on every tool call, and its `bluesky_get_liked_posts` passes a handle where the endpoint requires a post URI, so it errors every time.
-
-Neither can undo anything it does, and neither asks before doing something public.
-
----
-
-## 13. Troubleshooting
+## 12. Troubleshooting
 
 **`bluesky-mcp doctor`** first. It names the failing step and the fix.
 
@@ -579,7 +544,7 @@ Server not appearing at all: run the command your client runs, by hand, and read
 
 ---
 
-## 14. Build from source
+## 13. Build from source
 
 ```bash
 git clone https://github.com/thenavidm/bluesky-mcp.git
@@ -655,4 +620,10 @@ Facet detection regexes are taken from [`@atproto/api`](https://github.com/blues
 
 ## License
 
-MIT
+[MIT](./LICENSE). Free to use, modify, and share.
+
+Not affiliated with, endorsed by, or connected to Bluesky Social PBC.
+
+---
+
+© 2026 NM Media. Made with ❤️ by [Navid Moazzez](https://navid.me).

@@ -3,13 +3,12 @@
  *
  * A model will hand you whatever the user pasted. That is almost always a
  * bsky.app permalink, occasionally an at:// URI, sometimes a bare handle with
- * an @ on it. brianellin's server makes this the user's problem: `get-post-thread`
- * hard-rejects anything not starting with `at://did:plc:`, which also rejects
- * every valid `did:web:` post, and ships a separate `convert-url-to-uri` tool
- * so the model can do the conversion itself, one extra round trip at a time.
+ * an @ on it. Every URI argument goes through `resolvePostUri`, so all three
+ * forms work everywhere and no separate conversion step is needed.
  *
- * Here every URI argument goes through `resolvePostUri`, so all three forms work
- * everywhere and the conversion tool is unnecessary.
+ * Note that `did:plc:` is one of two DID methods in use. Gating on it, which is
+ * the easy shortcut, also rejects every valid `did:web:` post, and `did:web:`
+ * is exactly what a self-hosted PDS uses.
  */
 
 import type { BlueskyClient } from "./client.js";

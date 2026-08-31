@@ -5,9 +5,9 @@
  *   1. BLUESKY_ACCOUNTS   a JSON array, for several accounts at once
  *   2. BLUESKY_IDENTIFIER + BLUESKY_APP_PASSWORD, the single-account variables
  *
- * Both reference servers stop at a single account read from the environment.
- * That is fine until you run a personal handle and a brand handle from the same
- * client, at which point you are restarting the server to switch. Every tool
+ * A single account read from the environment is fine until you run a personal
+ * handle and a brand handle from the same client, at which point you are
+ * restarting the server to switch. Every tool
  * that acts as someone takes an optional `account` argument matched against the
  * handle, and the account that acts when none is named is chosen deliberately
  * (see `selectAccount`) rather than being whichever one happened to be first.

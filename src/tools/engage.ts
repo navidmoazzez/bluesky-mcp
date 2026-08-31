@@ -1,11 +1,9 @@
 /**
  * Liking, reposting, following, muting, blocking, and undoing all of it.
  *
- * Neither reference server can undo anything. brianellin's has `like-post` and
- * `follow-user` and no way back; berlinbra's has neither. That is a real gap,
- * because the interesting instruction is "unfollow everyone I followed by
- * mistake last week", and an agent that can only add is an agent you cannot let
- * near your graph.
+ * Every action here has its inverse, because the interesting instruction is
+ * "unfollow everyone I followed by mistake last week", and an agent that can
+ * only add is an agent you cannot let near your graph.
  *
  * Undoing works because every one of these actions is itself a record. A like
  * is an `app.bsky.feed.like` record in your repo, and the post view tells you
@@ -284,7 +282,7 @@ const setReplyPermissions = defineTool({
   name: "set_reply_permissions",
   title: "Change who can reply",
   description:
-    "Change who is allowed to reply to one of your existing posts, after it is already published. Also lets you hide specific replies from the thread. Neither reference server exposes this, and it is the main tool for a post that is going badly.",
+    "Change who is allowed to reply to one of your existing posts, after it is already published. Also lets you hide specific replies from the thread. This is the main tool for a post that is going badly.",
   schema: {
     uri: z.string().describe("at:// URI or bsky.app link of your post."),
     who: z

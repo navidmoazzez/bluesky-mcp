@@ -1,13 +1,13 @@
 /**
  * The XRPC client: one session per account, refreshed rather than re-minted.
  *
- * Three things here that neither reference server does.
+ * Three things worth knowing.
  *
  * Sessions are cached and refreshed. `createSession` is rate limited hard by
  * Bluesky, and an access JWT lasts about two hours while a refresh JWT lasts
- * months. berlinbra's server constructs a client and logs in again on *every
- * tool call*, which burns the create-session budget and will start failing on a
- * busy day. Here a session is minted once per account, refreshed with
+ * months. Logging in on every tool call burns the create-session budget and
+ * starts failing on a busy day. Here a session is minted once per account,
+ * refreshed with
  * `com.atproto.server.refreshSession` when it expires, and only re-minted from
  * the app password if the refresh itself fails.
  *
@@ -16,8 +16,8 @@
  * have configured any credentials at all, which is the difference between a
  * server that is useless until set up and one that is useful immediately.
  *
- * 429 and 5xx are retried with backoff that honours `ratelimit-reset`. Bluesky
- * does send it; both references ignore it and surface the failure.
+ * 429 and 5xx are retried with backoff that honours `ratelimit-reset`, which
+ * Bluesky does actually send.
  */
 
 import { setTimeout as delay } from "node:timers/promises";

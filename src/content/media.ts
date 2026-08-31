@@ -10,9 +10,9 @@
  * with an embed that will not play. The real path is a separate service:
  * mint a service-auth token scoped to `app.bsky.video.uploadVideo` with the
  * video service as its audience, POST the bytes to video.bsky.app, then poll a
- * job until the transcode finishes and hands back the blob to embed. Neither
- * reference server implements video at all, and a naive `uploadBlob` version
- * looks like it works right up until nobody can play the post.
+ * job until the transcode finishes and hands back the blob to embed. A naive
+ * `uploadBlob` version looks like it works right up until nobody can play the
+ * post.
  */
 
 import { setTimeout as delay } from "node:timers/promises";

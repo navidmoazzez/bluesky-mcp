@@ -1,15 +1,13 @@
 /**
  * Rendering posts for a model to read.
  *
- * berlinbra's server returns `json.dumps(response.model_dump())`. A single
- * timeline page of 50 posts is roughly 90,000 tokens of nested view objects,
- * most of it CIDs, blob refs, viewer state and label arrays, and the model has
- * to find the text inside it. brianellin's server solved this properly with an
- * XML format (POST_FORMAT_SPEC.md) that runs an order of magnitude smaller and
- * reads far better. That idea is the best thing in either repository and it is
- * the one taken wholesale here.
+ * Raw API JSON is enormous. A single timeline page of 50 posts is roughly
+ * 90,000 tokens of nested view objects, most of it CIDs, blob refs, viewer
+ * state and label arrays, and the model has to find the text inside it. The
+ * tagged format below runs about a tenth the size and puts the text where a
+ * model expects it.
  *
- * What is different:
+ * Rules that matter:
  *
  *   - **Timestamps are ISO-8601 UTC.** The original uses `toLocaleString()` and
  *     `formatISO9075`, so the same post renders differently depending on the
