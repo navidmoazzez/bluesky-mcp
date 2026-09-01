@@ -1,5 +1,12 @@
 # Bluesky MCP
 
+[![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp)
+[![Licence](https://img.shields.io/badge/licence-MIT-green)](./LICENSE)
+[![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
+[![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
+
+Bluesky MCP server for Claude Code and AI agents. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
+
 Give any AI agent full control of your Bluesky account. Post, reply, run threads, read your timeline, search the network, manage who you follow, and study how anyone writes, from Claude, Cursor, or any MCP client.
 
 41 tools. No OAuth app to register: a handle and an app password is the whole setup. Most reads work with no credentials at all.
@@ -37,7 +44,6 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 | 10 | [Your data](#10-your-data) | What is stored and where |
 | 11 | [Risks](#11-risks) | Read this before you install |
 | 12 | [Troubleshooting](#12-troubleshooting) | When something breaks |
-| 13 | [Build from source](#13-build-from-source) | Run it from a checkout |
 
 ---
 
@@ -657,23 +663,6 @@ Server not appearing at all: run the command your client runs, by hand, and read
 
 ---
 
-## 13. Build from source
-
-```bash
-git clone https://github.com/navidmoazzez/bluesky-mcp.git
-cd bluesky-mcp
-npm install
-npm run build
-npm test
-```
-
-Then point your client at `node /absolute/path/to/bluesky-mcp/dist/index.js`.
-
-```bash
-npm run typecheck   # tsc --noEmit
-npm run dev         # tsc --watch
-npm test            # vitest, 61 tests
-```
 
 ---
 
@@ -701,6 +690,10 @@ npm test            # vitest, 61 tests
 ## Versions
 
 See [VERSIONS.md](VERSIONS.md).
+
+## Questions
+
+Run into a problem or have a question? [Open an issue](https://github.com/navidmoazzez/bluesky-mcp/issues) and I will help.
 
 ## About the author
 
