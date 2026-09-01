@@ -660,7 +660,7 @@ Server not appearing at all: run the command your client runs, by hand, and read
 ## 13. Build from source
 
 ```bash
-git clone https://github.com/thenavidm/bluesky-mcp.git
+git clone https://github.com/navidmoazzez/bluesky-mcp.git
 cd bluesky-mcp
 npm install
 npm run build

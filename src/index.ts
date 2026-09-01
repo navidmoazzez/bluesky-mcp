@@ -35,7 +35,7 @@ Options:
   BLUESKY_AUDIT_LOG                 append-only log of every attempted write
   BLUESKY_HTTP_PORT / _HOST / _TOKEN  for --http
 
-https://github.com/thenavidm/bluesky-mcp
+https://github.com/navidmoazzez/bluesky-mcp
 `;
 
 async function main(): Promise<void> {
