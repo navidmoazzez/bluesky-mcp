@@ -7,11 +7,13 @@
 
 Bluesky MCP server for Claude Code and AI agents. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
 
-Give any AI agent full control of your Bluesky account. Post, reply, run threads, read your timeline, search the network, manage who you follow, and study how anyone writes, from Claude, Cursor, or any MCP client.
+There is no OAuth app to register. A handle and an app password are the whole setup.
 
-It ships 41 tools and needs no OAuth app: a handle and an app password are the whole setup. Most reads work with no credentials at all.
+Most reads work with no credentials at all.
 
-Built by [Navid Moazzez](https://navid.me).
+41 tools, covering everything you can do in the app and a few things you cannot.
+
+Built and maintained by [Navid Moazzez](https://navid.me).
 
 ```
 You: what did the people I follow argue about while I was asleep?
