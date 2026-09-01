@@ -7,6 +7,7 @@
  * rather than something the user has to know to ask for.
  */
 
+import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { BlueskyClient } from "./api/client.js";
 import { loadConfig, type Config } from "./config.js";
@@ -14,7 +15,14 @@ import { WriteGuard } from "./safety.js";
 import { ALL_TOOLS } from "./tools/index.js";
 import { makeContext, register } from "./tools/kit.js";
 
-export const VERSION = "1.0.0";
+/**
+ * Read from package.json rather than repeated here.
+ *
+ * A hardcoded copy silently drifts: 1.1.0 shipped to npm while `--version`
+ * still answered 1.0.0, because the release bumped one and not the other.
+ */
+const require = createRequire(import.meta.url);
+export const VERSION: string = (require("../package.json") as { version: string }).version;
 
 export const INSTRUCTIONS = `Tools for Bluesky over the AT Protocol: posting, threads, replies, the timeline, search, custom feeds, lists, notifications and the social graph.
 
