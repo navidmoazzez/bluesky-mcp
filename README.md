@@ -218,14 +218,52 @@ This is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `
 
 ## 3. Install
 
-Node 20 or newer. Nothing else.
+### Which one do you need
+
+Find the row for what you actually use. Everything below is the detail for one
+of these rows, so you only have to read yours.
+
+| You use | You want | Jump to |
+|---|---|---|
+| **Claude Desktop** | the MCP server | [Claude Desktop](#claude-desktop) |
+| **Claude Code** | the MCP server | [Claude Code](#claude-code) |
+| **Cursor, Windsurf, VS Code** | the MCP server | [Cursor](#cursor) |
+| **Any other MCP client** | the MCP server | [Everything else](#everything-else) |
+| **A terminal, a script, cron, CI** | the CLI | [Install the package](#install-the-package) |
+| **claude.ai in a browser, or your phone** | neither of these | see below |
+
+**claude.ai and mobile have no shell and cannot launch a local process**, so
+neither the CLI nor a local MCP server can reach them. That surface needs a
+hosted server over HTTP, which is [section 3's self-hosting part](#self-hosting-over-http).
+
+Most people want one of the first four rows and are done in one command.
+
+### Prerequisites
+
+| | |
+|---|---|
+| **Node 20 or newer** | the only thing you have to install |
+| **A Bluesky app password** | needed for anything that acts as you |
+
+Get the app password first, in [section 2](#2-set-up-your-account). It takes a
+minute and there is no OAuth app to register.
+
+**You can skip it and still read.** Profiles, other people's posts, threads,
+custom feeds and trends all work with no credentials. Posting, liking,
+following, your own timeline and your notifications do not, and `search_posts`
+does not either, because Bluesky's public API refuses that one endpoint without
+a session.
 
 One package gives you both surfaces: an MCP server for your AI tools, and a CLI
 for your shell.
 
-### Install the package
+### A. Get it on your machine
 
-**Recommended.** Puts both binaries on your `PATH`:
+**Skip this if you only use an AI app.** The client configs in part B run `npx`,
+which fetches the package on demand, so nothing has to be installed first.
+
+Do this when you want `bluesky-cli` in your own terminal, or in a script or a
+cron job. It puts both binaries on your `PATH`:
 
 ```bash
 npm install -g @thenavidm/bluesky-mcp-cli
@@ -275,7 +313,16 @@ npm link                       # puts both binaries on your PATH
 Point a client at `node /path/to/bluesky-mcp-cli/dist/index.js` if you would
 rather not link.
 
-### Claude Code
+### B. Connect it to your app
+
+Each of these registers the server with one client. They all use `npx`, so part
+A is not required: pick your app, run one command or paste one block, restart it.
+
+**Turn it off when you are not using Bluesky.** It adds 41 tools to the model's
+context on every single turn, whether they get used or not. In Claude Code that
+is `@bluesky` to toggle. Every client has an equivalent.
+
+#### Claude Code
 
 ```bash
 claude mcp add bluesky \
@@ -284,7 +331,7 @@ claude mcp add bluesky \
   -- npx -y @thenavidm/bluesky-mcp-cli
 ```
 
-### Claude Desktop
+#### Claude Desktop
 
 **1. Open the config file.**
 
@@ -348,23 +395,23 @@ tail -n 50 ~/Library/Logs/Claude/mcp-server-bluesky.log
 
 Two things account for most failures. Node is not installed, or not on the PATH that Claude Desktop sees, in which case use the full path to `node` as the `command`. Or the JSON is malformed, which you can check by pasting the file into any JSON validator.
 
-### Cursor
+#### Cursor
 
 Create `~/.cursor/mcp.json` for every project, or `.cursor/mcp.json` inside a single project. Use the same JSON as Claude Desktop. Then reload the window, or open **Settings**, **MCP**, and toggle the server.
 
-### Windsurf
+#### Windsurf
 
 `~/.codeium/windsurf/mcp_config.json`, same JSON, then reload.
 
-### VS Code
+#### VS Code
 
 `.vscode/mcp.json` in a project, or run **MCP: Add Server** from the command palette.
 
-### Everything else
+#### Everything else
 
 Zed, Cline, Continue and anything else that speaks MCP over stdio all work. They each keep their config somewhere different, but they all want the same things: the `command`, the `args`, and the `env`.
 
-### Docker
+#### Docker
 
 ```bash
 docker build -t bluesky-mcp .
@@ -374,7 +421,7 @@ docker run --rm -i \
   bluesky-mcp
 ```
 
-### Self-hosting over HTTP
+#### Self-hosting over HTTP
 
 For a machine that is always on:
 
@@ -386,7 +433,7 @@ bluesky-mcp --http
 
 Binds `127.0.0.1` by default. An app password reaches your whole account, so put it behind a reverse proxy with TLS before you change `BLUESKY_HTTP_HOST`, and set `BLUESKY_HTTP_TOKEN` so the endpoint is not open. `GET /health` returns the tool and account count without authentication.
 
-### Check it worked
+#### Check it worked
 
 ```bash
 npx -y @thenavidm/bluesky-mcp-cli doctor
@@ -448,56 +495,6 @@ install.
 Nothing else is left behind. This server keeps no cache, no database and no
 state directory. The one file it can create is the audit log, and only if you
 pointed `BLUESKY_AUDIT_LOG` at a path, so delete that yourself if you set one.
-
-### From the shell
-
-The same binary is a CLI. Every tool is a command with the same name and the
-same arguments, generated from the same definitions the MCP server registers, so
-the two surfaces cannot drift apart.
-
-```bash
-npm install -g @thenavidm/bluesky-mcp-cli
-
-bluesky-mcp tools                      # all 41, one line each
-bluesky-mcp get-profile bsky.app       # get_profile works too
-bluesky-mcp create-post --help         # what it takes
-bluesky-mcp schema create-post         # the JSON schema a client sees
-```
-
-Reads print the tagged text the tools return, which is written for a model and
-reads fine in a terminal. Writes and the account commands return an object.
-`--json` JSON-encodes whichever it was, `--compact` puts it on one line, and
-errors are JSON on stderr either way, so a script parses one shape whatever
-happens.
-
-```bash
-bluesky-mcp list-accounts --json | jq -r '.accounts[].handle'
-bluesky-mcp create-post --text "Shipped." --confirm --json | jq -r '.url'
-```
-
-> **Reads are not structured yet.** A read command hands back the tagged text,
-> so `--json` gives you that text as a JSON string rather than fields you can
-> filter on. Piping a feed into `jq` to select posts does not work today. The
-> fix is for read handlers to return their data and render at the edge, which is
-> a change to the tools rather than to the CLI, and it is the next thing on this
-> surface.
-
-Writing works the same, and so do the guards: `--confirm` stands in for
-`confirm: true`, `BLUESKY_READ_ONLY=1` removes the write commands rather than
-failing them, and `BLUESKY_AUDIT_LOG` records shell calls exactly as it records
-tool calls.
-
-```bash
-bluesky-mcp create-post --text "Shipped." --confirm
-bluesky-mcp like-post at://did:plc:.../app.bsky.feed.post/...
-```
-
-Credentials come from the same environment variables, so a shell that can run
-the server can run the CLI with no extra setup.
-
-**Which to use.** The MCP server is the right answer inside a conversation, and
-the only one that works on claude.ai or a phone. The CLI is the right answer for
-pipes, scripts and cron, and it costs no context until you call it.
 
 ## 4. Tools
 
