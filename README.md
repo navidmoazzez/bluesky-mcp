@@ -1,3 +1,5 @@
+<img src="https://cdn.navid.media/connectors/bluesky-icon.png" alt="Bluesky" width="88">
+
 # Bluesky MCP
 
 [![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp)
