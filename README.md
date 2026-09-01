@@ -1,13 +1,15 @@
 <img src="https://cdn.navid.media/connectors/bluesky-icon.png" alt="Bluesky" width="88">
 
-# Bluesky MCP
+# Bluesky CLI & MCP Server
 
 [![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp-cli?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp-cli)
 [![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
 
-Bluesky MCP server for Claude Code and AI agents. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
+**Programmatic access to Bluesky**, as a command-line tool or as an MCP server for AI agents. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
+
+One install gives you both. Same 41 tools, same names, same credentials.
 
 There is no OAuth app to register. A handle and an app password are the whole setup.
 
@@ -31,6 +33,80 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
   Nothing is addressed to you. You have 3 unread mentions, all on the
   post from Tuesday, all agreeing with it.
 ```
+
+## Two ways to use it
+
+### Command line
+
+`bluesky-cli` in your terminal, for scripting, cron, pipes, or just asking a
+quick question without opening anything:
+
+```bash
+bluesky-cli                                     # every command, one line each
+bluesky-cli get-timeline --limit 50             # your home timeline
+bluesky-cli get-author-feed --actor navid.me    # someone's posts
+bluesky-cli search-posts "model context protocol"
+bluesky-cli create-post --text "Shipped." --confirm
+bluesky-cli get-notifications --json | jq       # JSON for scripts
+bluesky-cli <command> --help                    # what any command takes
+```
+
+### MCP server, for AI agents
+
+`bluesky-mcp` is what Claude Code, Claude Desktop, Cursor and the rest launch.
+You never run it by hand:
+
+```bash
+claude mcp add bluesky \
+  -e BLUESKY_IDENTIFIER=you.bsky.social \
+  -e BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx \
+  -- npx -y @thenavidm/bluesky-mcp-cli
+```
+
+Then just ask: _"what did the people I follow argue about while I was asleep?"_
+
+Every other client is in [section 3](#3-install).
+
+### Which one
+
+| | |
+|---|---|
+| Inside a conversation with an agent | MCP |
+| On claude.ai or your phone | MCP, there is no shell there |
+| Piping, scripting, cron, CI | CLI |
+| A one-off question in a terminal | CLI |
+
+They are the same program reading the same tool definitions, so anything one
+can do, the other can.
+
+## Features
+
+Every tool is both a command and an MCP tool, with the same name. The command
+is the tool name with dashes.
+
+| Capability | CLI command | MCP tool |
+|---|---|---|
+| Who am I | `bluesky-cli whoami` | `whoami` |
+| List connected accounts | `bluesky-cli list-accounts` | `list_accounts` |
+| Post | `bluesky-cli create-post` | `create_post` |
+| Post a thread | `bluesky-cli create-thread` | `create_thread` |
+| Delete a post | `bluesky-cli delete-post` | `delete_post` |
+| Reply permissions | `bluesky-cli set-reply-permissions` | `set_reply_permissions` |
+| Home timeline | `bluesky-cli get-timeline` | `get_timeline` |
+| Someone's posts | `bluesky-cli get-author-feed` | `get_author_feed` |
+| Read a thread | `bluesky-cli get-post-thread` | `get_post_thread` |
+| Custom feeds | `bluesky-cli get-feed` / `get-pinned-feeds` | `get_feed` / `get_pinned_feeds` |
+| Search posts, people, feeds | `bluesky-cli search-posts` / `search-actors` / `search-feeds` | `search_posts` / `search_actors` / `search_feeds` |
+| Trends | `bluesky-cli get-trends` | `get_trends` |
+| Like, repost | `bluesky-cli like-post` / `repost` | `like_post` / `repost` |
+| Follow, unfollow | `bluesky-cli follow` / `unfollow` | `follow` / `unfollow` |
+| Profiles, followers, following | `bluesky-cli get-profile` / `get-followers` / `get-follows` | `get_profile` / `get_followers` / `get_follows` |
+| Block, mute | `bluesky-cli block-account` / `mute-account` | `block_account` / `mute_account` |
+| Lists | `bluesky-cli get-lists` / `get-list-posts` | `get_lists` / `get_list_posts` |
+| Notifications | `bluesky-cli get-notifications` | `get_notifications` |
+| Check your setup | `bluesky-cli doctor` | not a tool |
+
+All 41 with their arguments are in [section 4](#4-tools).
 
 ## Contents
 
