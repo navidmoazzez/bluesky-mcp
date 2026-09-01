@@ -1,8 +1,47 @@
-# Bluesky MCP Versions
+# Bluesky MCP Server & CLI Versions
 
 | Component | Version | Last Updated |
 |-----------|---------|--------------|
-| bluesky-mcp | 1.0.0 | 2026-08-31 |
+| bluesky-mcp-cli | 1.1.0 | 2026-09-01 |
+
+---
+
+## 1.1.0
+
+A CLI, and a rename to match.
+
+### Every tool is now a shell command
+
+`src/cli.ts` is the mirror of `register()` in `tools/kit.ts`. Both adapters read
+the same `ALL_TOOLS` array and call the same handlers through the same
+`WriteGuard`, so `--confirm`, `BLUESKY_READ_ONLY`, `BLUESKY_ALLOW_DESTRUCTIVE`
+and the audit log behave identically on both surfaces, and the two cannot drift.
+
+The command is the tool name: `create_post` runs as `create-post`, and the
+underscore spelling works too. Flags, placeholders, help text and validation all
+come from the Zod schema each tool already declares, so a tool added tomorrow is
+a command tomorrow with no further work.
+
+### Two binaries
+
+`bluesky-mcp` is the server, which must stay silent on stdout. `bluesky-cli`
+lists the commands when run bare. One entry point dispatches on the invoked
+name, and help output names the binary you actually typed.
+
+### Renamed to bluesky-mcp-cli
+
+So the name says both surfaces. The npm scope is unchanged and the server binary
+is still `bluesky-mcp`, so existing client configs that run it by name keep
+working. `@thenavidm/bluesky-mcp` is frozen at 1.0.0.
+
+### Known gap
+
+Read handlers return the tagged text, so `--json` gives that text as a JSON
+string rather than fields to filter on. Writes and the account commands return
+real objects. The fix is for read handlers to return data and render at the edge.
+
+21 new tests, including parity assertions that every tool routes as a command
+and every schema key becomes a flag. 82 total.
 
 ---
 
