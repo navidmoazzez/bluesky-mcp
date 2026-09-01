@@ -17,8 +17,6 @@ Most reads work with no credentials at all.
 
 Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=readme&utm_campaign=bluesky-mcp).
 
-<img src="https://cdn.navid.media/repos/terminal-demo.gif" alt="Claude Code running in the terminal" width="760">
-
 ```
 You: what did the people I follow argue about while I was asleep?
 
