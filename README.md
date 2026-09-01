@@ -9,7 +9,7 @@ Bluesky MCP server for Claude Code and AI agents. Posting, threads, replies, tim
 
 Give any AI agent full control of your Bluesky account. Post, reply, run threads, read your timeline, search the network, manage who you follow, and study how anyone writes, from Claude, Cursor, or any MCP client.
 
-41 tools. No OAuth app to register: a handle and an app password is the whole setup. Most reads work with no credentials at all.
+It ships 41 tools and needs no OAuth app: a handle and an app password are the whole setup. Most reads work with no credentials at all.
 
 Built by [Navid Moazzez](https://navid.me).
 
@@ -44,6 +44,7 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 | 10 | [Your data](#10-your-data) | What is stored and where |
 | 11 | [Risks](#11-risks) | Read this before you install |
 | 12 | [Troubleshooting](#12-troubleshooting) | When something breaks |
+| 13 | [FAQ](#13-faq-) | Including what an MCP server is |
 
 ---
 
@@ -690,6 +691,130 @@ Server not appearing at all: run the command your client runs, by hand, and read
 ## Versions
 
 See [VERSIONS.md](VERSIONS.md).
+
+---
+
+## 13. FAQ ❓
+
+<details>
+<summary><b>What is an MCP server?</b></summary>
+
+An MCP server is a standard way to give an AI assistant real access to a tool,
+so it can act rather than guess. You install it once, your assistant gains the
+tools, and it works in Claude, Cursor, ChatGPT and anything else that speaks the
+protocol. You never call the tools yourself, you just ask in plain language.
+
+</details>
+
+<details>
+<summary><b>What is Bluesky?</b></summary>
+
+Bluesky is a social network built on the AT Protocol, an open standard where
+your identity and your posts are not owned by the app you use to read them. In
+practice it looks like a text-first timeline, and the openness is why a server
+like this needs no approval from anyone to exist.
+
+</details>
+
+<details>
+<summary><b>Do I need to register a developer app?</b></summary>
+
+You do not. Bluesky has no developer portal and no OAuth application to create,
+which is the single biggest difference from every other social platform. Your
+handle and an app password are the whole setup.
+
+</details>
+
+<details>
+<summary><b>What is an app password and why not my real password?</b></summary>
+
+An app password is a separate credential you generate in Bluesky's settings for
+one piece of software. You can revoke it on its own without changing your real
+password or disturbing anything else you have signed in to.
+
+Never put your account password in the config. If you already have, change it
+and issue an app password instead.
+
+</details>
+
+<details>
+<summary><b>Is my data sent anywhere? Who can see it?</b></summary>
+
+Nothing leaves your machine except calls to your own PDS, the server that hosts
+your Bluesky account. There is no backend here, no account to create and no
+telemetry. Your credential sits in your client's config file and the audit log
+sits in your data directory.
+
+</details>
+
+<details>
+<summary><b>Can it post without me asking?</b></summary>
+
+It posts when you ask it to. Publishing, threads, deleting and blocking all
+require the model to pass `confirm: true`, which it sets after reading a
+description explaining what cannot be undone. That is a speed bump against a
+careless call rather than a lock.
+
+If you want a server that cannot write at all, set `BLUESKY_READ_ONLY=1` and the
+write tools are never registered, so the model cannot see or call them.
+
+</details>
+
+<details>
+<summary><b>Can it delete something by accident?</b></summary>
+
+Deleting a post needs `confirm: true`, and it is worth knowing that a delete on
+Bluesky does not pull the post out of feeds, caches and clients that already
+have it. There is no unsend. Likes, reposts and follows are not guarded, because
+each is one click to undo.
+
+</details>
+
+<details>
+<summary><b>What can it do that the app cannot?</b></summary>
+
+It reads at a scale you would not by hand: every reply across a week, the
+overlap between two accounts' followers, how someone's posting changed over
+months. It also drafts in your voice and stages a thread for you to approve
+before anything is public.
+
+</details>
+
+<details>
+<summary><b>Does it cost anything?</b></summary>
+
+It costs nothing. The server is MIT licensed and Bluesky's API is free. You are
+paying for your own AI client, not for this.
+
+</details>
+
+<details>
+<summary><b>Does it work with ChatGPT and Cursor, or only Claude?</b></summary>
+
+It works with any MCP client. Claude Code, Claude Desktop, Cursor, Windsurf, VS
+Code, Codex CLI and Gemini CLI all run it the same way, with the same command
+and the same environment variables.
+
+</details>
+
+<details>
+<summary><b>Can I connect more than one account?</b></summary>
+
+You can connect as many as you like. Every tool takes an optional account
+argument, and a preference order decides which one is used when you leave it
+out.
+
+</details>
+
+<details>
+<summary><b>How do I disconnect it?</b></summary>
+
+Revoke the app password in Bluesky's settings, which cuts access immediately,
+then remove the server from your client's config. Deleting the data directory
+removes the local audit log and session cache.
+
+</details>
+
 
 ## Questions
 
