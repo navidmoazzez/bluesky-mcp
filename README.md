@@ -1,13 +1,13 @@
 <img src="https://cdn.navid.media/connectors/bluesky-icon.png" alt="Bluesky" width="88">
 
-# Bluesky CLI & MCP Server
+# Bluesky MCP Server & CLI
 
 [![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp-cli?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp-cli)
 [![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
 
-**Programmatic access to Bluesky**, as a command-line tool or as an MCP server for AI agents. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
+**Programmatic access to Bluesky**, as an MCP server for AI agents or as a command-line tool. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
 
 One install gives you both. Same 41 tools, same names, same credentials.
 

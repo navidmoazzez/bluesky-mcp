@@ -1,7 +1,7 @@
 {
   "name": "@thenavidm/bluesky-mcp-cli",
   "version": "1.0.0",
-  "description": "Bluesky MCP server and CLI. 41 tools for the AT Protocol, both surfaces, one install.",
+  "description": "Bluesky MCP server & CLI. 41 tools for the AT Protocol, both surfaces, one install.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
