@@ -62,7 +62,7 @@ export function buildServer(config: Config = loadConfig()): BuiltServer {
  * Resources: the context a model needs about Bluesky itself.
  *
  * A model that knows what a DID is and what a facet does asks better questions.
- * Trimmed to what actually changes behaviour, plus the connected accounts, so a
+ * Trimmed to what actually changes behavior, plus the connected accounts, so a
  * client can see which handles are available without a tool call.
  */
 function registerResources(server: McpServer, config: Config): void {

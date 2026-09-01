@@ -90,7 +90,7 @@ export async function fetchMedia(source: string, timeoutMs = 30_000): Promise<Fe
  * Without it Bluesky guesses, and a tall screenshot gets letterboxed into a
  * square in the timeline. PNG, JPEG, GIF and WebP cover essentially everything
  * a post carries; anything else returns undefined and Bluesky falls back to
- * exactly the behaviour it has today.
+ * exactly the behavior it has today.
  */
 export function imageSize(bytes: Uint8Array): { width: number; height: number } | undefined {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);

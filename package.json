@@ -1,7 +1,7 @@
 {
   "name": "@thenavidm/bluesky-mcp",
   "version": "1.0.0",
-  "description": "MCP server for Bluesky and the AT Protocol. 41 tools for posting, threads, feeds, search, lists, notifications and the social graph, with LLM-optimised output. Works with Claude Code, Claude Desktop, Cursor, Windsurf, and any MCP-compatible client.",
+  "description": "Bluesky MCP server for Claude Code and AI agents. 41 tools for posting, threads, replies, timelines, search, custom feeds, lists, notifications and the social graph over the AT Protocol.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
