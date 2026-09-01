@@ -29,11 +29,25 @@ export type Risk =
   /** Public the moment it runs, or cannot be undone. */
   | "destructive";
 
+/**
+ * How the caller reached us, so a refusal names the thing they can actually
+ * type. A model reads `confirm: true`; a person at a terminal reads
+ * `--confirm`. Same gate, same audit line, different noun.
+ */
+export type Surface = "mcp" | "cli";
+
 export class WriteGuard {
   private readonly config: Config;
+  private readonly surface: Surface;
 
-  constructor(config: Config) {
+  constructor(config: Config, surface: Surface = "mcp") {
     this.config = config;
+    this.surface = surface;
+  }
+
+  /** What to tell the caller to pass. */
+  private get confirmFlag(): string {
+    return this.surface === "cli" ? "--confirm" : "confirm: true";
   }
 
   get readOnly(): boolean {
@@ -60,7 +74,7 @@ export class WriteGuard {
       if (confirm !== true) {
         this.audit(tool, summary, "blocked: no confirm");
         throw new WriteBlockedError(
-          `${tool} is public or irreversible, so it will not run without confirm: true. About to: ${summary}. Call again with confirm: true if that is what was asked for.`,
+          `${tool} is public or irreversible, so it will not run without ${this.confirmFlag}. About to: ${summary}. Call again with ${this.confirmFlag} if that is what was asked for.`,
         );
       }
     }

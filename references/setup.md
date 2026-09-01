@@ -18,7 +18,7 @@ Node 20 or newer. Nothing else.
 claude mcp add bluesky \
   -e BLUESKY_IDENTIFIER=you.bsky.social \
   -e BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx \
-  -- npx -y @thenavidm/bluesky-mcp
+  -- npx -y @thenavidm/bluesky-mcp-cli
 ```
 
 Or in any client's MCP config:
@@ -28,7 +28,7 @@ Or in any client's MCP config:
   "mcpServers": {
     "bluesky": {
       "command": "npx",
-      "args": ["-y", "@thenavidm/bluesky-mcp"],
+      "args": ["-y", "@thenavidm/bluesky-mcp-cli"],
       "env": {
         "BLUESKY_IDENTIFIER": "you.bsky.social",
         "BLUESKY_APP_PASSWORD": "xxxx-xxxx-xxxx-xxxx"
@@ -71,7 +71,7 @@ Or per account, as a `"service"` key inside `BLUESKY_ACCOUNTS`.
 ## Verify
 
 ```bash
-npx -y @thenavidm/bluesky-mcp doctor
+npx -y @thenavidm/bluesky-mcp-cli doctor
 ```
 
 Checks the network, then each account's credentials, then a real read and a

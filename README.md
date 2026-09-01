@@ -2,7 +2,7 @@
 
 # Bluesky MCP
 
-[![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp)
+[![npm](https://img.shields.io/npm/v/@thenavidm/bluesky-mcp-cli?color=orange&label=npm)](https://www.npmjs.com/package/@thenavidm/bluesky-mcp-cli)
 [![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 [![YouTube](https://img.shields.io/badge/YouTube-@thenavidm-red?logo=youtube&logoColor=white)](https://youtube.com/@thenavidm?sub_confirmation=1)
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
@@ -38,7 +38,7 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
 |---|---|---|
 | 1 | [What you can ask it](#1-what-you-can-ask-it) | Real prompts, not features |
 | 2 | [Set up your account](#2-set-up-your-account) | Get your app password first |
-| 3 | [Install](#3-install) | Every client, copy and paste |
+| 3 | [Install](#3-install) | Every client, copy and paste, plus the shell |
 | 4 | [Tools](#4-tools) | All 41, with arguments |
 | 5 | [Writing safely](#5-writing-safely) | Why posting asks twice |
 | 6 | [Writing posts](#6-writing-posts) | Links, mentions, media, threads |
@@ -87,9 +87,9 @@ Set up the Bluesky MCP server for me.
 3. Register the server with my MCP client, passing BLUESKY_IDENTIFIER and
    BLUESKY_APP_PASSWORD as environment variables. For Claude Code that is:
      claude mcp add bluesky -e BLUESKY_IDENTIFIER=<handle> \
-       -e BLUESKY_APP_PASSWORD=<password> -- npx -y @thenavidm/bluesky-mcp
+       -e BLUESKY_APP_PASSWORD=<password> -- npx -y @thenavidm/bluesky-mcp-cli
    For any other client, write the equivalent JSON into its MCP config file.
-4. Run `npx -y @thenavidm/bluesky-mcp doctor` and show me the output.
+4. Run `npx -y @thenavidm/bluesky-mcp-cli doctor` and show me the output.
 5. If every line says ok, tell me to restart the client. If any line says FAIL,
    tell me what it says and what to do about it. Do not try to guess my
    password or handle, and do not post anything.
@@ -119,7 +119,7 @@ The handle needs its domain. `alice` will not resolve; `alice.bsky.social` will.
 **4. Check it.**
 
 ```bash
-npx -y @thenavidm/bluesky-mcp doctor
+npx -y @thenavidm/bluesky-mcp-cli doctor
 ```
 
 Expect four lines of `ok`: the public API reachable, the account configured, it authenticates, and it can write. A `FAIL` on the last one usually means the app password was mistyped.
@@ -144,10 +144,60 @@ This is a supported mode. `get_profile`, `get_author_feed`, `get_post_thread`, `
 
 Node 20 or newer. Nothing else.
 
-> Not released to npm yet. The `npx` commands below work once `v1.0.0` is
-> published. Until then, install from source with
-> [section 13](#13-build-from-source) and point your client at
-> `node /path/to/bluesky-mcp/dist/index.js`.
+One package gives you both surfaces: an MCP server for your AI tools, and a CLI
+for your shell.
+
+### Install the package
+
+**Recommended.** Puts both binaries on your `PATH`:
+
+```bash
+npm install -g @thenavidm/bluesky-mcp-cli
+```
+
+Other package managers:
+
+```bash
+pnpm add -g @thenavidm/bluesky-mcp-cli     # pnpm
+yarn global add @thenavidm/bluesky-mcp-cli # yarn
+bun add -g @thenavidm/bluesky-mcp-cli      # bun
+```
+
+Or run it without installing anything, which is what the client configs below
+do. `@latest` means you get new versions with no action on your part:
+
+```bash
+npx -y @thenavidm/bluesky-mcp-cli@latest --version
+bunx @thenavidm/bluesky-mcp-cli --version
+```
+
+### After installation, you get
+
+| | |
+|---|---|
+| `bluesky-cli` | the command-line interface, all 41 tools |
+| `bluesky-mcp` | the MCP server your AI tools launch |
+
+Both are the same program reading the same tool definitions, so they never
+disagree. Check it:
+
+```bash
+bluesky-cli                    # lists every command
+bluesky-cli get-profile bsky.app
+```
+
+### Alternative: install from source
+
+```bash
+git clone https://github.com/navidmoazzez/bluesky-mcp-cli.git
+cd bluesky-mcp-cli
+npm install
+npm run build
+npm link                       # puts both binaries on your PATH
+```
+
+Point a client at `node /path/to/bluesky-mcp-cli/dist/index.js` if you would
+rather not link.
 
 ### Claude Code
 
@@ -155,7 +205,7 @@ Node 20 or newer. Nothing else.
 claude mcp add bluesky \
   -e BLUESKY_IDENTIFIER=you.bsky.social \
   -e BLUESKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx \
-  -- npx -y @thenavidm/bluesky-mcp
+  -- npx -y @thenavidm/bluesky-mcp-cli
 ```
 
 ### Claude Desktop
@@ -187,7 +237,7 @@ If the file is empty or does not exist, paste this whole thing in:
   "mcpServers": {
     "bluesky": {
       "command": "npx",
-      "args": ["-y", "@thenavidm/bluesky-mcp"],
+      "args": ["-y", "@thenavidm/bluesky-mcp-cli"],
       "env": {
         "BLUESKY_IDENTIFIER": "you.bsky.social",
         "BLUESKY_APP_PASSWORD": "xxxx-xxxx-xxxx-xxxx"
@@ -263,10 +313,115 @@ Binds `127.0.0.1` by default. An app password reaches your whole account, so put
 ### Check it worked
 
 ```bash
-npx -y @thenavidm/bluesky-mcp doctor
+npx -y @thenavidm/bluesky-mcp-cli doctor
 ```
 
 It checks the network, then each account's credentials, then a real read and a real write scope, and names the fix for whichever one fails.
+
+### Upgrading
+
+```bash
+npm install -g @thenavidm/bluesky-mcp-cli@latest   # npm
+pnpm add -g @thenavidm/bluesky-mcp-cli@latest      # pnpm
+yarn global upgrade @thenavidm/bluesky-mcp-cli     # yarn
+bun add -g @thenavidm/bluesky-mcp-cli@latest       # bun
+```
+
+If your client config uses `npx -y ...@latest`, there is nothing to upgrade.
+It fetches the current version the next time the server starts.
+
+Restart your AI tool afterwards so it reconnects to the new server:
+
+| | |
+|---|---|
+| Claude Code | `/mcp` to reconnect, or restart |
+| Claude Desktop | quit and reopen, not just close the window |
+| Cursor, Windsurf, VS Code | restart the application |
+
+### Migrating from `@thenavidm/bluesky-mcp`
+
+The package used to be called `@thenavidm/bluesky-mcp`, before the CLI existed.
+That name is frozen at `1.0.0` and has no CLI in it. Move across:
+
+```bash
+npm uninstall -g @thenavidm/bluesky-mcp
+npm install -g @thenavidm/bluesky-mcp-cli
+```
+
+Then update any client config that still names the old package, replacing
+`@thenavidm/bluesky-mcp` with `@thenavidm/bluesky-mcp-cli`. The binary is still
+called `bluesky-mcp`, so a config that runs the binary by name keeps working.
+
+Nothing else changes: same tools, same environment variables, same credentials.
+
+### Uninstalling
+
+```bash
+npm uninstall -g @thenavidm/bluesky-mcp-cli
+```
+
+Remove the server from any client that has it. In Claude Code:
+
+```bash
+claude mcp remove bluesky
+```
+
+Elsewhere, delete the `bluesky` entry from the config file you edited during
+install.
+
+Nothing else is left behind. This server keeps no cache, no database and no
+state directory. The one file it can create is the audit log, and only if you
+pointed `BLUESKY_AUDIT_LOG` at a path, so delete that yourself if you set one.
+
+### From the shell
+
+The same binary is a CLI. Every tool is a command with the same name and the
+same arguments, generated from the same definitions the MCP server registers, so
+the two surfaces cannot drift apart.
+
+```bash
+npm install -g @thenavidm/bluesky-mcp-cli
+
+bluesky-mcp tools                      # all 41, one line each
+bluesky-mcp get-profile bsky.app       # get_profile works too
+bluesky-mcp create-post --help         # what it takes
+bluesky-mcp schema create-post         # the JSON schema a client sees
+```
+
+Reads print the tagged text the tools return, which is written for a model and
+reads fine in a terminal. Writes and the account commands return an object.
+`--json` JSON-encodes whichever it was, `--compact` puts it on one line, and
+errors are JSON on stderr either way, so a script parses one shape whatever
+happens.
+
+```bash
+bluesky-mcp list-accounts --json | jq -r '.accounts[].handle'
+bluesky-mcp create-post --text "Shipped." --confirm --json | jq -r '.url'
+```
+
+> **Reads are not structured yet.** A read command hands back the tagged text,
+> so `--json` gives you that text as a JSON string rather than fields you can
+> filter on. Piping a feed into `jq` to select posts does not work today. The
+> fix is for read handlers to return their data and render at the edge, which is
+> a change to the tools rather than to the CLI, and it is the next thing on this
+> surface.
+
+Writing works the same, and so do the guards: `--confirm` stands in for
+`confirm: true`, `BLUESKY_READ_ONLY=1` removes the write commands rather than
+failing them, and `BLUESKY_AUDIT_LOG` records shell calls exactly as it records
+tool calls.
+
+```bash
+bluesky-mcp create-post --text "Shipped." --confirm
+bluesky-mcp like-post at://did:plc:.../app.bsky.feed.post/...
+```
+
+Credentials come from the same environment variables, so a shell that can run
+the server can run the CLI with no extra setup.
+
+**Which to use.** The MCP server is the right answer inside a conversation, and
+the only one that works on claude.ai or a phone. The CLI is the right answer for
+pipes, scripts and cron, and it costs no context until you call it.
 
 ## 4. Tools
 
@@ -520,7 +675,7 @@ In an MCP client config, that goes in `env` as a single JSON string:
   "mcpServers": {
     "bluesky": {
       "command": "npx",
-      "args": ["-y", "@thenavidm/bluesky-mcp"],
+      "args": ["-y", "@thenavidm/bluesky-mcp-cli"],
       "env": {
         "BLUESKY_ACCOUNTS": "[{\"handle\":\"you.bsky.social\",\"app_password\":\"xxxx-xxxx-xxxx-xxxx\"},{\"handle\":\"brand.example.com\",\"app_password\":\"yyyy-yyyy-yyyy-yyyy\"}]",
         "BLUESKY_DEFAULT_ACCOUNT": "you.bsky.social"
@@ -789,7 +944,7 @@ removes the local audit log and session cache.
 
 ## Questions
 
-Run into a problem or have a question? [Open an issue](https://github.com/navidmoazzez/bluesky-mcp/issues) and I will help.
+Run into a problem or have a question? [Open an issue](https://github.com/navidmoazzez/bluesky-mcp-cli/issues) and I will help.
 
 ## About the author
 

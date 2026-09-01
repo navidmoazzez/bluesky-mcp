@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build bluesky-mcp from source and register it with Claude Code.
+# Build bluesky-mcp-cli from source and register it with Claude Code.
 #
 # For people who would rather not wait for the npm release, or who want to run
 # a local checkout. Everything it does is one of the commands in README §14.

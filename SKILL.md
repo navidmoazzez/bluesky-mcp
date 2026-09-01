@@ -14,6 +14,34 @@ Run `whoami` if you need to know which account you are acting as, or `list_accou
 
 Most reads work with no credentials. `search_posts`, the timeline, notifications and every write need a connected account.
 
+## From the shell
+
+Every tool is also a command, with the same name and the same arguments. Use it
+when you want to pipe, filter, script or schedule something, and use the tools
+when you are working inside a conversation.
+
+```bash
+bluesky-mcp tools                       # every command, one line each
+bluesky-mcp get-profile bsky.app        # underscores work too: get_profile
+bluesky-mcp <command> --help            # what it takes
+```
+
+Reading commands print the same tagged text the tools return. Add `--json` for
+JSON, or `--compact` for one line of it. Errors are always JSON on stderr, so
+one parse handles both outcomes.
+
+```bash
+bluesky-mcp list-accounts --json | jq -r '.accounts[].handle'
+```
+
+Reads hand back tagged text, so `--json` gives you that text as a string, not
+fields to filter on. Writes and the account commands return real objects, which
+`jq` can read.
+
+The safety rules are identical, because it is the same code: `--confirm` stands
+in for `confirm: true`, and `BLUESKY_READ_ONLY=1` removes the write commands
+rather than failing them.
+
 ## Writing posts
 
 Bodies are plain text, capped at **300 characters**. Write them the way a person types them.

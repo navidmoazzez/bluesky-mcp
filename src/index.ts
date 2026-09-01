@@ -4,20 +4,31 @@
  *
  * `bluesky-mcp`             stdio, which is what MCP clients launch
  * `bluesky-mcp --http`      HTTP, for running it somewhere always on
+ * `bluesky-mcp <tool>`      run one tool from the shell, see cli.ts
  * `bluesky-mcp doctor`      check the setup and say what is wrong
+ *
+ * The shell surface is generated from the same `ALL_TOOLS` array the server
+ * registers, so every tool is a command and neither surface can drift.
  */
 
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { buildServer, VERSION } from "./server.js";
 import { loadConfig } from "./config.js";
 import { httpOptionsFromEnv, startHttpServer } from "./transport/http.js";
+import { isCliCommand, runCli } from "./cli.js";
 
 const HELP = `bluesky-mcp ${VERSION}
 
   bluesky-mcp                     Run over stdio. This is what an MCP client launches.
   bluesky-mcp --http [--port=N]   Run over HTTP, for a machine that is always on.
+  bluesky-mcp tools               List every tool as a shell command.
+  bluesky-mcp <tool> [--flags]    Run one tool. Same names as the MCP surface.
+  bluesky-mcp <tool> --help       What that tool takes.
+  bluesky-mcp schema <tool>       The JSON schema an MCP client sees.
   bluesky-mcp doctor              Check the setup and report what is wrong.
   bluesky-mcp --version           Print the version.
+
+  Every command prints JSON on --json, and errors as JSON on stderr.
 
 Credentials, in priority order:
   BLUESKY_ACCOUNTS          JSON array, for several accounts at once:
@@ -35,12 +46,37 @@ Options:
   BLUESKY_AUDIT_LOG                 append-only log of every attempted write
   BLUESKY_HTTP_PORT / _HOST / _TOKEN  for --http
 
-https://github.com/navidmoazzez/bluesky-mcp
+https://github.com/navidmoazzez/bluesky-mcp-cli
 `;
+
+/**
+ * Which name launched us.
+ *
+ * One file serves both binaries. `bluesky-mcp` with no arguments is an MCP
+ * client starting a stdio server and must stay silent on stdout. `bluesky-cli`
+ * with no arguments is a person who wants to know what they can type, so it
+ * lists the commands instead of hanging on a transport that will never speak.
+ */
+function invokedAsCli(): boolean {
+  const name = (process.argv[1] ?? "").split("/").pop() ?? "";
+  return name.startsWith("bluesky-cli");
+}
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
   const command = argv[0];
+
+  if (invokedAsCli() && argv.length === 0) {
+    process.exitCode = await runCli(["tools"]);
+    return;
+  }
+
+  // Checked before --help and --version so `<tool> --help` reaches the tool.
+  // A bare `--help` starts with a dash, so it falls through to the block below.
+  if (isCliCommand(argv)) {
+    process.exitCode = await runCli(argv);
+    return;
+  }
 
   if (argv.includes("--help") || argv.includes("-h") || command === "help") {
     process.stdout.write(HELP);
