@@ -112,7 +112,7 @@ All 41 with their arguments are in [section 4](#6-tools).
 | 2 | [Set up your account](#2-set-up-your-account) | Get your app password first |
 | 3 | [Install](#3-install) | Every client, copy and paste, plus the shell |
 | 4 | [Output and exit codes](#4-output-and-exit-codes) | What scripts branch on |
-| 5 | [What it costs to have connected](#5-what-it-costs-to-have-connected) | ~11,400 tokens a turn, and how to spend less |
+| 5 | [Which surface, and what each costs](#5-which-surface-and-what-each-costs) | ~11,400 tokens a turn, or a hundred |
 | 6 | [Tools](#6-tools) | All 41, with arguments |
 | 7 | [Writing safely](#7-writing-safely) | Why posting asks twice |
 | 8 | [Writing posts](#8-writing-posts) | Links, mentions, media, threads |
@@ -290,41 +290,50 @@ if ! bluesky-cli create-post --text "$MSG" --confirm; then
 fi
 ```
 
-## 5. What it costs to have connected
+## 5. Which surface, and what each costs
 
-Every MCP server sends its whole tool list to the model on **every turn**,
-whether you mention Bluesky or not. Measured on this one at v1.1.1:
+Both surfaces carry the same 41 tools. They differ in when you pay for them.
 
-| | Sent per turn |
+| | MCP server | CLI |
+|---|---|---|
+| Loaded every turn | **~11,400 tokens** | nothing |
+| Loaded when Bluesky comes up | nothing more | ~1,800, once |
+| Works on claude.ai and mobile | yes | no, there is no shell there |
+| Works in a script, cron or CI | no | yes |
+| You invoke it by | asking in plain language | typing a command |
+
+An MCP server sends its whole tool list to the model on **every turn**, whether
+you mention Bluesky or not. That is the price of being connected at all, before
+you ask anything.
+
+Over twenty turns where Bluesky comes up once, that is roughly 228,000 tokens
+against 2,300. When the whole conversation is Bluesky, the gap closes and the
+server is the better experience, because you ask in plain language instead of
+remembering flags.
+
+### Where the 11,400 goes
+
+Worth knowing, because it is mostly not something anyone can write away:
+
+| | Share |
 |---|---|
-| 41 tool definitions | ~11,000 tokens |
-| Server instructions | ~340 tokens |
-| **Total** | **~11,400 tokens** |
+| JSON Schema structure: types, required lists, nesting | **61%** |
+| Argument descriptions | 25% |
+| Tool descriptions | 13% |
 
-That is the price of the server being connected at all, before you ask it
-anything. It is not unusual, and nobody publishes it.
+Six thousand of those tokens are the protocol serialising every tool as JSON
+Schema. Any MCP server with this many tools pays the same. The 39% that is
+prose is what makes the tools usable without guessing.
 
-Two ways to spend less:
+### Spending less
 
-**Turn it off when you are not using Bluesky.** In Claude Code that is
-`@bluesky` to toggle. Every client has an equivalent. `BLUESKY_READ_ONLY=1`
+**Turn the server off when you are not using Bluesky.** In Claude Code that is
+`@bluesky` to toggle, and every client has an equivalent. `BLUESKY_READ_ONLY=1`
 drops it to the 26 reading tools.
 
-**Or use the CLI.** Same 41 tools, same names. A shell command is not in the
-context window, so it costs nothing on the turns you do not use it:
-
-```bash
-bluesky-cli get-author-feed --actor navid.me --limit 100
-```
-
-It is not free, and the honest comparison matters. An agent driving the CLI
-still reads `SKILL.md`, roughly 1,800 tokens, and sometimes a command's help,
-roughly 500 more. The difference is that it pays once when Bluesky comes up,
-where the server pays ~11,400 on every turn whether it does or not.
-
-Over twenty turns in which Bluesky is mentioned once, that is about 2,300
-tokens against 228,000. When the whole conversation is Bluesky, the gap closes
-and the server is the better experience. That is why both exist.
+**Or install the CLI and skip the server.** All 41 tools stay reachable, the
+standing cost falls to roughly a hundred tokens, and you connect the server
+later on the days it earns its place.
 
 ## 6. Tools
 
