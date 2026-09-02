@@ -87,6 +87,17 @@ async function main(): Promise<void> {
     return;
   }
 
+  // A word that is not a tool used to fall through and start the server, which
+  // then sat waiting on stdin. Typing `bluesky-cli get-porfile` looked like a
+  // hang rather than a typo, and scripts saw a success exit code.
+  if (invokedAsCli() && command !== undefined && !command.startsWith("-")) {
+    process.stderr.write(
+      `${JSON.stringify({ error: `Unknown command '${command}'. Run \`bluesky-cli\` to list them.` }, null, 2)}\n`,
+    );
+    process.exitCode = 1;
+    return;
+  }
+
   if (argv.includes("--help") || argv.includes("-h") || command === "help") {
     process.stdout.write(HELP);
     return;
