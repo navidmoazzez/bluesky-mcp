@@ -69,7 +69,7 @@ Every other client is in [section 3](#3-install).
 
 ### Which one
 
-| | |
+| What you are doing | Use |
 |---|---|
 | Inside a conversation with an agent | MCP |
 | On claude.ai or your phone | MCP, there is no shell there |
@@ -240,7 +240,7 @@ Most people want one of the first four rows and are done in one command.
 
 ### Prerequisites
 
-| | |
+| What you need | Why |
 |---|---|
 | **Node 20 or newer** | the only thing you have to install |
 | **A Bluesky app password** | needed for anything that acts as you |
@@ -287,7 +287,7 @@ bunx @thenavidm/bluesky-mcp-cli --version
 
 ### After installation, you get
 
-| | |
+| Command | What it is |
 |---|---|
 | `bluesky-cli` | the command-line interface, all 41 tools |
 | `bluesky-mcp` | the MCP server your AI tools launch |
@@ -339,7 +339,7 @@ In Claude Desktop, go to **Settings**, then **Developer**, then click **Edit Con
 
 If you would rather go straight there:
 
-| | |
+| System | Config file |
 |---|---|
 | macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
 | Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
@@ -384,7 +384,7 @@ Look for the tools icon in the message box and click it. You should see `bluesky
 
 If nothing appears, Claude Desktop's own log is the fastest way in:
 
-| | |
+| System | Log file |
 |---|---|
 | macOS | `~/Library/Logs/Claude/mcp-server-bluesky.log` |
 | Windows | `%APPDATA%\Claude\logs\mcp-server-bluesky.log` |
@@ -455,7 +455,7 @@ It fetches the current version the next time the server starts.
 
 Restart your AI tool afterwards so it reconnects to the new server:
 
-| | |
+| Client | How to reconnect |
 |---|---|
 | Claude Code | `/mcp` to reconnect, or restart |
 | Claude Desktop | quit and reopen, not just close the window |
