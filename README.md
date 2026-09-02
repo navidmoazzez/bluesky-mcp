@@ -290,11 +290,14 @@ bunx @thenavidm/bluesky-mcp-cli --version
 
 | Command | What it is |
 |---|---|
-| `bluesky-cli` | the command-line interface, all 41 tools |
-| `bluesky-mcp` | the MCP server your AI tools launch |
+| `bluesky-mcp` | the MCP server. What Claude Desktop, Claude Code and Cursor launch, and not something you run yourself. |
+| `bluesky-cli` | the same 41 tools as shell commands. This is the one you type. |
 
-Both are the same program reading the same tool definitions, so they never
-disagree. Check it:
+They are one program under two names, and the name only decides what happens
+when you pass no arguments: `bluesky-mcp` waits for a client, `bluesky-cli`
+lists the commands. Either name will run any command.
+
+Check it:
 
 ```bash
 bluesky-cli                    # lists every command
@@ -462,22 +465,6 @@ Restart your AI tool afterwards so it reconnects to the new server:
 | Claude Desktop | quit and reopen, not just close the window |
 | Cursor, Windsurf, VS Code | restart the application |
 
-### Migrating from `@thenavidm/bluesky-mcp`
-
-The package used to be called `@thenavidm/bluesky-mcp`, before the CLI existed.
-That name is frozen at `1.0.0` and has no CLI in it. Move across:
-
-```bash
-npm uninstall -g @thenavidm/bluesky-mcp
-npm install -g @thenavidm/bluesky-mcp-cli
-```
-
-Then update any client config that still names the old package, replacing
-`@thenavidm/bluesky-mcp` with `@thenavidm/bluesky-mcp-cli`. The binary is still
-called `bluesky-mcp`, so a config that runs the binary by name keeps working.
-
-Nothing else changes: same tools, same environment variables, same credentials.
-
 ### Uninstalling
 
 ```bash
@@ -499,7 +486,12 @@ pointed `BLUESKY_AUDIT_LOG` at a path, so delete that yourself if you set one.
 
 ## 4. Tools
 
-41 tools. Every one that acts as you takes an optional `account`; every listing tool takes `limit` and `cursor`. Anywhere a post is named, an `at://` URI and a `bsky.app` link both work.
+Every tool, with its arguments. Each one is also a shell command under the same
+name with dashes, so `create_post` runs as `bluesky-cli create-post`.
+
+Three things hold across all 41. Every tool that acts as you takes an optional
+`account`. Every tool that returns a list takes `limit` and `cursor`. Anywhere a
+post is named, an `at://` URI and a `bsky.app` link both work.
 
 ### Accounts
 

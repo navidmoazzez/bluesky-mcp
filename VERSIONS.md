@@ -32,7 +32,7 @@ name, and help output names the binary you actually typed.
 
 So the name says both surfaces. The npm scope is unchanged and the server binary
 is still `bluesky-mcp`, so existing client configs that run it by name keep
-working. `@thenavidm/bluesky-mcp` is frozen at 1.0.0.
+working.
 
 ### Known gap
 
