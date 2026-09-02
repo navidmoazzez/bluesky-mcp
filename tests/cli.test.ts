@@ -7,6 +7,7 @@
  * person actually types.
  */
 
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { flagsFor, parseArgs, isCliCommand } from "../src/cli.js";
@@ -137,5 +138,28 @@ describe("parity with the MCP surface", () => {
     expect(isCliCommand(["--http"])).toBe(false);
     expect(isCliCommand(["--version"])).toBe(false);
     expect(isCliCommand([])).toBe(false);
+  });
+});
+
+describe("documentation stays in step with the code", () => {
+  const read = (p: string): string => readFileSync(new URL(p, import.meta.url), "utf-8");
+  const names = (text: string): Set<string> => new Set(text.match(/BLUESKY_[A-Z_]+/g) ?? []);
+
+  /**
+   * Two variables shipped undocumented and five never reached `--help`, which is
+   * the kind of drift nobody notices because both sides look complete on their own.
+   */
+  it("documents every environment variable the code reads", () => {
+    const used = names(["config.ts", "transport/http.ts"].map((f) => read(`../src/${f}`)).join("\n"));
+    const documented = names(read("../README.md"));
+    expect([...used].filter((v) => !documented.has(v))).toEqual([]);
+  });
+
+  it("lists every environment variable in --help", () => {
+    const used = names(["config.ts", "transport/http.ts"].map((f) => read(`../src/${f}`)).join("\n"));
+    const helped = names(read("../src/index.ts"));
+    // The help groups the three HTTP ones as `BLUESKY_HTTP_PORT / _HOST / _TOKEN`.
+    const shorthand = new Set(["BLUESKY_HTTP_HOST", "BLUESKY_HTTP_TOKEN"]);
+    expect([...used].filter((v) => !helped.has(v) && !shorthand.has(v))).toEqual([]);
   });
 });

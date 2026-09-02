@@ -879,6 +879,8 @@ Server not appearing at all: run the command your client runs, by hand, and read
 | `BLUESKY_MAX_RETRIES` | `3` | Retries on 429 and 5xx |
 | `BLUESKY_PUBLIC_API` | `https://public.api.bsky.app` | Public appview |
 | `BLUESKY_VIDEO_SERVICE` | `https://video.bsky.app` | Video transcoding service |
+| `BLUESKY_VIDEO_SERVICE_DID` | `did:web:video.bsky.app` | Service DID the video upload authenticates against |
+| `BLUESKY_USER_AGENT` | `bluesky-mcp` | User-Agent sent on every request |
 | `BLUESKY_HTTP_PORT` | `8787` | For `--http` |
 | `BLUESKY_HTTP_HOST` | `127.0.0.1` | For `--http` |
 | `BLUESKY_HTTP_TOKEN` | none | Bearer token required by `--http` |

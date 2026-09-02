@@ -44,7 +44,16 @@ Options:
   BLUESKY_REQUEST_TIMEOUT_MS        per-request deadline, default 30000
   BLUESKY_MIN_REQUEST_INTERVAL_MS   spacing between requests, default 120
   BLUESKY_AUDIT_LOG                 append-only log of every attempted write
+  BLUESKY_MAX_RETRIES               retries on 429 and 5xx, default 3
+  BLUESKY_USER_AGENT                sent on every request, default bluesky-mcp
   BLUESKY_HTTP_PORT / _HOST / _TOKEN  for --http
+
+Endpoints. Defaults are Bluesky's own, so leave these alone unless you run your
+own infrastructure. Reads go to the public API, which needs no credentials.
+
+  BLUESKY_PUBLIC_API                default https://public.api.bsky.app
+  BLUESKY_VIDEO_SERVICE             default https://video.bsky.app
+  BLUESKY_VIDEO_SERVICE_DID         default did:web:video.bsky.app
 
 https://github.com/navidmoazzez/bluesky-mcp-cli
 `;
