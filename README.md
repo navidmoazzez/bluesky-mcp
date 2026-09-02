@@ -230,7 +230,7 @@ of these rows, so you only have to read yours.
 | **Claude Code** | the MCP server | [Claude Code](#claude-code) |
 | **Cursor, Windsurf, VS Code** | the MCP server | [Cursor](#cursor) |
 | **Any other MCP client** | the MCP server | [Everything else](#everything-else) |
-| **A terminal, a script, cron, CI** | the CLI | [Install the package](#install-the-package) |
+| **A terminal, a script, cron, CI** | the CLI | [Get it on your machine](#a-get-it-on-your-machine) |
 | **claude.ai in a browser, or your phone** | neither of these | see below |
 
 **claude.ai and mobile have no shell and cannot launch a local process**, so
@@ -376,7 +376,7 @@ If the file is empty or does not exist, paste this whole thing in:
 
 If you already have other servers, add only the `"bluesky": {{ ... }}` part inside your existing `"mcpServers"`, and put a comma after the entry before it. The file has to stay valid JSON. A single missing comma or a trailing one stops every server from loading, not just this one.
 
-Replace the two values with your own. [Section 3](#3-connect-your-account) covers where to get them.
+Replace the two values with your own. [Section 2](#2-set-up-your-account) covers where to get them.
 
 **3. Restart properly.**
 

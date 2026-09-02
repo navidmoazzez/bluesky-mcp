@@ -162,4 +162,24 @@ describe("documentation stays in step with the code", () => {
     const shorthand = new Set(["BLUESKY_HTTP_HOST", "BLUESKY_HTTP_TOKEN"]);
     expect([...used].filter((v) => !helped.has(v) && !shorthand.has(v))).toEqual([]);
   });
+
+  /**
+   * Two in-page links pointed at headings that had been renamed, including the
+   * one row routing a shell user to the CLI. The ship checklist's link pass only
+   * greps http, so a dead `#anchor` is the kind that ships quietly.
+   */
+  it("has no dead in-page anchors in the README", () => {
+    const md = read("../README.md");
+    const slugs = new Set<string>();
+    for (const [, heading] of md.matchAll(/^#{2,4} (.+)$/gm)) {
+      const stripped = (heading as string).toLowerCase().replace(/[^\w\s-]/g, "");
+      // GitHub keeps the trailing hyphen when a heading ends in an emoji.
+      slugs.add(stripped.trim().replace(/\s+/g, "-"));
+      slugs.add(stripped.replace(/\s+/g, "-"));
+    }
+    const dead = [...md.matchAll(/\[[^\]]+\]\(#([^)]+)\)/g)]
+      .map((m) => m[1] as string)
+      .filter((a) => !slugs.has(a));
+    expect(dead).toEqual([]);
+  });
 });
