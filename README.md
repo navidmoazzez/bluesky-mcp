@@ -18,22 +18,7 @@ need, and most reads work with no credentials at all.
 
 Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=readme&utm_campaign=bluesky-mcp-cli).
 
-```
-You: what did the people I follow argue about while I was asleep?
-
-Claude: Reading your timeline for the last 9 hours. 214 posts, three real threads.
-
-  1. Whether custom feeds should be ranked or chronological, 40 posts,
-     mostly between four accounts, no resolution.
-  2. A PDS outage this morning. Resolved; bsky.app posted an explanation.
-  3. Someone's chart of handle churn since January, quoted 30 times.
-     Two people say the y-axis is wrong. They are right.
-
-  Nothing is addressed to you. You have 3 unread mentions, all on the
-  post from Tuesday, all agreeing with it.
-```
-
-<img src="https://cdn.navid.media/repos/bluesky-mcp-cli.gif?v=1" alt="Claude Code using the Bluesky MCP server" width="520">
+<img src="https://cdn.navid.media/repos/bluesky-mcp-cli.gif?v=2" alt="Claude Code using the Bluesky MCP server" width="520">
 
 ## Two ways to use it
 
