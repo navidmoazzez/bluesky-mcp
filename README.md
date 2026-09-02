@@ -325,16 +325,21 @@ Two ways to spend less:
 `@bluesky` to toggle. Every client has an equivalent. `BLUESKY_READ_ONLY=1`
 drops it to the 26 reading tools.
 
-**Or use the CLI, which costs nothing until you call it.** Same 41 tools, same
-names. A shell command is not in the context window, so the only tokens you
-spend are the ones you asked for:
+**Or use the CLI.** Same 41 tools, same names. A shell command is not in the
+context window, so it costs nothing on the turns you do not use it:
 
 ```bash
 bluesky-cli get-author-feed --actor navid.me --limit 100
 ```
 
-That is the real reason both surfaces exist. The MCP server is right when you
-are talking to an agent about Bluesky. The CLI is right when you are not.
+It is not free, and the honest comparison matters. An agent driving the CLI
+still reads `SKILL.md`, roughly 1,800 tokens, and sometimes a command's help,
+roughly 500 more. The difference is that it pays once when Bluesky comes up,
+where the server pays ~11,400 on every turn whether it does or not.
+
+Over twenty turns in which Bluesky is mentioned once, that is about 2,300
+tokens against 228,000. When the whole conversation is Bluesky, the gap closes
+and the server is the better experience. That is why both exist.
 
 ## 6. Tools
 
