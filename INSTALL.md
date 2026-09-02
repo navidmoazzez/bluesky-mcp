@@ -7,8 +7,10 @@ One npm package, `@thenavidm/bluesky-mcp-cli`, contains two programs:
 | **`bluesky-mcp`** | the MCP server | your AI app launches it, you never do |
 | **`bluesky-cli`** | the command line tool | you, in a terminal |
 
-They are the same 41 tools. Install one, the other, or both. This page covers
-every route in full. The README has only the three commands most people need.
+They are the same 41 tools. Install one, the other, or both.
+
+This page is the complete guide. The README carries a short version of the three
+most common routes, and they are repeated here so you never have to read both.
 
 ## Before you start
 
@@ -255,10 +257,6 @@ install.
 Nothing else is left behind. This server keeps no cache, no database and no
 state directory. The one file it can create is the audit log, and only if you
 pointed `BLUESKY_AUDIT_LOG` at a path, so delete that yourself if you set one.
-
----
-
-Back to [the README](README.md).
 
 ---
 

@@ -254,8 +254,9 @@ That gives you two commands: `bluesky-mcp` is the server your AI tools launch,
 `bluesky-cli` is the one you type. They are one program, and the name only
 decides what happens when you pass no arguments.
 
-**Everything else**, including Cursor, Windsurf, VS Code, Docker, self-hosting
-over HTTP, upgrading and removal, is in [INSTALL.md](https://github.com/navidmoazzez/bluesky-mcp-cli/blob/main/INSTALL.md).
+That is the short version. The full guide covers every other client, Cursor,
+Windsurf, VS Code, Docker and self-hosting over HTTP, plus upgrading and
+removal: [INSTALL.md](https://github.com/navidmoazzez/bluesky-mcp-cli/blob/main/INSTALL.md).
 
 ## 4. Output and exit codes
 
