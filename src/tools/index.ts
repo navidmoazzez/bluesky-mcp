@@ -9,6 +9,7 @@ import { readTools } from "./read.js";
 import { discoverTools } from "./discover.js";
 import { graphTools } from "./graph.js";
 import { notificationTools } from "./notifications.js";
+import { analyticsTools } from "./analytics.js";
 
 export const ALL_TOOLS: AnyToolSpec[] = [
   ...accountTools,
@@ -18,4 +19,5 @@ export const ALL_TOOLS: AnyToolSpec[] = [
   ...discoverTools,
   ...graphTools,
   ...notificationTools,
+  ...analyticsTools,
 ];

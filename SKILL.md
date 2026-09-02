@@ -42,7 +42,7 @@ If `--version` still reports command not found, the install directory is not on
 
 ## Finding a command
 
-The CLI describes itself, so nothing here needs to list 41 tools and go stale:
+The CLI describes itself, so nothing here needs to list 45 tools and go stale:
 
 ```bash
 bluesky-cli                    # every command, one line each, writes marked
@@ -65,6 +65,7 @@ and the underscore spelling also works.
 | Graph | `follow` *, `unfollow` *, `mute-account` *, `unmute-account` *, `block-account` *, `unblock-account` *, `get-profile`, `get-followers`, `get-follows`, `get-relationships`, `get-lists`, `get-list-members` |
 | Reading | `get-timeline`, `get-author-feed`, `get-liked-posts`, `get-post-likes`, `get-reposted-by`, `get-quotes`, `get-feed`, `get-pinned-feeds`, `get-list-posts` |
 | Searching | `search-posts`, `search-actors`, `search-feeds`, `get-trends`, `get-suggested-follows` |
+| Analytics | `rank-posts`, `get-post-stats`, `get-engagement-summary`, `get-posting-patterns` |
 | Notifications | `get-notifications`, `get-unread-count`, `mark-notifications-seen` * |
 
 ## Agent mode
@@ -123,6 +124,7 @@ it:
 | Reading feeds, and the output format | `references/reading.md` |
 | Setting up, or acting as several accounts | `references/setup.md` |
 | Something failed and the message is not obvious | `references/failures.md` |
+| Measuring how posts performed | `references/analytics.md` |
 
 ## Untrusted content
 
