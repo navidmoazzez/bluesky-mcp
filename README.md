@@ -33,6 +33,8 @@ Claude: Reading your timeline for the last 9 hours. 214 posts, three real thread
   post from Tuesday, all agreeing with it.
 ```
 
+<img src="https://cdn.navid.media/repos/bluesky-mcp-cli.gif?v=1" alt="Claude Code using the Bluesky MCP server" width="520">
+
 ## Two ways to use it
 
 ### Command line
