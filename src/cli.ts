@@ -16,6 +16,7 @@
  */
 
 import { z, type ZodRawShape, type ZodTypeAny } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { loadConfig } from "./config.js";
 import { BlueskyClient } from "./api/client.js";
 import { WriteGuard } from "./safety.js";
@@ -351,8 +352,10 @@ export async function runCli(argv: string[]): Promise<number> {
       emitError(new Error(`Unknown command '${rest[0] ?? ""}'. Run \`${binName()} tools\`.`));
       return 1;
     }
-    // The same shape an MCP client receives, so the two surfaces are provably one.
-    emit(z.object(spec.schema).describe(spec.description), "json");
+    // The same JSON Schema an MCP client receives, so the two surfaces are
+    // provably one. Emitting the Zod object instead printed its internals
+    // (`_def`, `~standard`), which is not a schema anyone can consume.
+    emit(zodToJsonSchema(z.object(spec.schema).describe(spec.description)), "json");
     return 0;
   }
 
