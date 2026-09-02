@@ -18,7 +18,7 @@ need, and most reads work with no credentials at all.
 
 Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=readme&utm_campaign=bluesky-mcp-cli).
 
-<img src="https://cdn.navid.media/repos/bluesky-mcp-cli.gif?v=2" alt="Claude Code using the Bluesky MCP server" width="520">
+<img src="https://cdn.navid.media/repos/bluesky-mcp-cli.gif?v=3" alt="Claude Code using the Bluesky MCP server" width="520">
 
 ## Two ways to use it
 
