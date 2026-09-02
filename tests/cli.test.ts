@@ -168,8 +168,8 @@ describe("documentation stays in step with the code", () => {
    * one row routing a shell user to the CLI. The ship checklist's link pass only
    * greps http, so a dead `#anchor` is the kind that ships quietly.
    */
-  it("has no dead in-page anchors in the README", () => {
-    const md = read("../README.md");
+  it.each(["../README.md", "../INSTALL.md"])("has no dead in-page anchors in %s", (file) => {
+    const md = read(file);
     const slugs = new Set<string>();
     for (const [, heading] of md.matchAll(/^#{2,4} (.+)$/gm)) {
       const stripped = (heading as string).toLowerCase().replace(/[^\w\s-]/g, "");
