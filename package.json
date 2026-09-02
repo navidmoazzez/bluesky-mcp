@@ -19,7 +19,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "build:mcpb": "bash mcpb/build.sh"
+    "build:mcpb": "bash desktop-extension/build.sh"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.0",

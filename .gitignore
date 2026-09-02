@@ -6,5 +6,5 @@ dist/
 .env.local
 coverage/
 _archive/
-mcpb/build/
-mcpb/*.mcpb
+desktop-extension/build/
+desktop-extension/*.mcpb
