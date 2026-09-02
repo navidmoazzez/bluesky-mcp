@@ -1,4 +1,4 @@
-# Installing
+# Install
 
 One npm package, `@thenavidm/bluesky-mcp-cli`, contains two programs:
 
