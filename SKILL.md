@@ -48,6 +48,19 @@ The guards are the same code, not a copy: `--confirm` is the shell spelling of
 `confirm: true`, and `BLUESKY_READ_ONLY=1` removes the write commands rather
 than failing them.
 
+## When not to reach for this
+
+It cannot see direct messages, private accounts, or anything from a blocked
+account. It cannot search further back than Bluesky's own index reaches, which
+is shallower than people expect.
+
+`search_posts` is the one read that needs a connected account, because Bluesky's
+public API refuses that endpoint without a session. Everything else reads fine
+with no credentials.
+
+Bluesky has no edit. A posted post can only be deleted and replaced, and the
+delete does not pull it out of feeds that already have it.
+
 ## Writing posts
 
 Bodies are plain text, capped at **300 characters**. Write them the way a person types them.

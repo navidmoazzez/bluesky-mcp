@@ -12,7 +12,7 @@ Bluesky MCP server and CLI for Claude Code and AI agents. 41 tools for posting, 
 
 One install gives you both. Same 41 tools, same names, same credentials.
 
-There is no OAuth app to register. A handle and an app password are the whole setup.
+There is no OAuth app to register. A handle and an app password are all you need.
 
 Most reads work with no credentials at all.
 
@@ -368,7 +368,7 @@ open -e ~/Library/Application\ Support/Claude/claude_desktop_config.json
 
 **2. Add the server.**
 
-If the file is empty or does not exist, paste this whole thing in:
+If the file is empty or does not exist, paste this in:
 
 ```json
 {
@@ -446,7 +446,7 @@ BLUESKY_HTTP_TOKEN=$(openssl rand -hex 32) \
 bluesky-mcp --http
 ```
 
-Binds `127.0.0.1` by default. An app password reaches your whole account, so put it behind a reverse proxy with TLS before you change `BLUESKY_HTTP_HOST`, and set `BLUESKY_HTTP_TOKEN` so the endpoint is not open. `GET /health` returns the tool and account count without authentication.
+Binds `127.0.0.1` by default. An app password can do anything your account can, so put it behind a reverse proxy with TLS before you change `BLUESKY_HTTP_HOST`, and set `BLUESKY_HTTP_TOKEN` so the endpoint is not open. `GET /health` returns the tool and account count without authentication.
 
 #### Check it worked
 
@@ -866,7 +866,7 @@ src/
     accounts.ts posts.ts engage.ts read.ts discover.ts graph.ts notifications.ts
 ```
 
-Two dependencies: the MCP SDK and zod. Not `@atproto/api`: the parts of it this needs are facet detection (about forty lines, taken from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the whole generated lexicon client for them.
+Two dependencies: the MCP SDK and zod. Not `@atproto/api`: the parts of it this needs are facet detection (about forty lines, taken from `detectFacets` so the segmentation cannot drift) and rich-text segmentation (about thirty), and the package pulls in the entire generated lexicon client for them.
 
 **Sessions.** One per account, cached, refreshed with `com.atproto.server.refreshSession` when the access JWT's `exp` passes, and only re-minted from the app password if the refresh itself fails. `createSession` is rate-limited hard; a server that calls it per request starts failing on a busy day.
 
@@ -891,7 +891,7 @@ There is no telemetry, no analytics and no phone-home. The only hosts contacted 
 
 Read this before you install.
 
-- **An app password reaches your whole account.** It can post, delete, follow and block as you. Its only advantages over your real password are that it is revocable and cannot change your email or password.
+- **An app password can do anything your account can.** It can post, delete, follow and block as you. Its only advantages over your real password are that it is revocable and cannot change your email or password.
 - **Posting is public and irreversible.** `confirm: true` is a speed bump, not a wall. A model that has decided to post will pass it.
 - **Blocking severs follows permanently.** Unblocking does not restore them; both sides have to follow again.
 - **Anything you read is untrusted text.** See [prompt injection](#prompt-injection).
@@ -971,7 +971,7 @@ like this needs no approval from anyone to exist.
 
 You do not. Bluesky has no developer portal and no OAuth application to create,
 which is the single biggest difference from every other social platform. Your
-handle and an app password are the whole setup.
+handle and an app password are all you need.
 
 </details>
 

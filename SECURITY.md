@@ -12,7 +12,7 @@ helps. Reporters are credited in the fix notes unless they would rather not be.
 ## What this server holds
 
 **An app password**, in `BLUESKY_APP_PASSWORD`. Not your account password, and
-that distinction is the whole point: an app password can be revoked on its own
+that distinction is the point: an app password can be revoked on its own
 from Bluesky's settings without changing your real password or touching any
 other app.
 
