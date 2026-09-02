@@ -1,4 +1,4 @@
-# Bluesky MCP Server & CLI Versions
+# Bluesky MCP Server & CLI changelog
 
 | Component | Version | Last Updated |
 |-----------|---------|--------------|
