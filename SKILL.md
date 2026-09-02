@@ -122,7 +122,7 @@ it:
 | Writing a post with links, mentions, images or video | `references/posting.md` |
 | Replying, or building a thread | `references/posting.md` |
 | Reading feeds, and the output format | `references/reading.md` |
-| Setting up, or acting as several accounts | `references/setup.md` |
+| Acting as the right account, or several | `references/accounts.md` |
 | Something failed and the message is not obvious | `references/failures.md` |
 | Measuring how posts performed | `references/analytics.md` |
 

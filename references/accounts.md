@@ -1,4 +1,4 @@
-# Setup and accounts
+# Acting as the right account
 
 Run `whoami` if you need to know which account you are acting as, or `list_accounts` when more than one is connected and the user has not said which they mean.
 
