@@ -8,7 +8,7 @@
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-thenavidm-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/thenavidm)
 
-**Programmatic access to Bluesky**, as an MCP server for AI agents or as a command-line tool. Posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph over the AT Protocol.
+Bluesky MCP server and CLI for Claude Code and AI agents. 41 tools for posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph.
 
 One install gives you both. Same 41 tools, same names, same credentials.
 

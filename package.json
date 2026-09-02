@@ -1,7 +1,7 @@
 {
   "name": "@thenavidm/bluesky-mcp-cli",
   "version": "1.1.1",
-  "description": "Bluesky MCP server & CLI. 41 tools for the AT Protocol, both surfaces, one install.",
+  "description": "Bluesky MCP server and CLI for Claude Code and AI agents. 41 tools for posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
