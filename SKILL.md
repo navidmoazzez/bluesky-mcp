@@ -1,7 +1,12 @@
 ---
 name: bluesky
 description: |
-  Bluesky and AT Protocol client. Use when the user mentions Bluesky, bsky, the AT Protocol, posting or replying on Bluesky, their Bluesky timeline, feed, followers or notifications, or wants to study, search or read any public Bluesky account or post.
+  Bluesky and AT Protocol client, as MCP tools and as `bluesky-cli` shell commands.
+  Use when the user mentions Bluesky, bsky, the AT Protocol, posting or replying on
+  Bluesky, their Bluesky timeline, feed, followers or notifications, or wants to
+  study, search or read any public Bluesky account or post. Also use when they want
+  to script, pipe, cron or automate any of that from a shell, since every tool is
+  also a command.
 ---
 
 # Bluesky
@@ -47,6 +52,30 @@ Errors are JSON on stderr whichever code comes back, so one parse covers both.
 The guards are the same code, not a copy: `--confirm` is the shell spelling of
 `confirm: true`, and `BLUESKY_READ_ONLY=1` removes the write commands rather
 than failing them.
+
+## What this does that the app cannot
+
+Reach for these rather than improvising the same thing from several calls.
+
+**`get_timeline` and `get_author_feed` take `since_hours`.** A time window, not a
+fixed count. "What happened while I was asleep" is one call, not a guess at how
+many posts nine hours holds.
+
+**`get_profile` takes up to 25 accounts at once**, and `get_relationships` up to
+30. Checking a list is one call. Do not loop a profile read per handle.
+
+**`get_relationships` answers both directions.** Whether you follow them and
+whether they follow back, together. Use it before a bulk follow or unfollow.
+
+**`get_quotes` separates quotes from reposts.** The app blends them, so a quote
+count is otherwise guesswork.
+
+**`create_thread` checks every part against the 300-character limit before it
+posts anything**, so a thread cannot half-publish because part four was too long.
+
+**Most reads need no credentials at all.** Profiles, other people's posts,
+threads, custom feeds and trends work unauthenticated. `search_posts` is the one
+exception.
 
 ## When not to reach for this
 
