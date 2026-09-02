@@ -11,7 +11,6 @@ description: |
 
 # Bluesky
 
-41 tools for Bluesky over the AT Protocol: posting, threads, replies, the timeline, search, custom feeds, lists, notifications and the social graph.
 
 ## Before anything else
 
