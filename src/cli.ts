@@ -347,6 +347,8 @@ function renderToolHelp(spec: AnyToolSpec): string {
   lines.push(`Output:`);
   lines.push(`  --json                          force JSON`);
   lines.push(`  --compact                       force single-line JSON`);
+  lines.push(`  --agent                         machine mode: JSON, compact, no prompts, no colour`);
+  lines.push(`  --select <a,b.c>                keep only these fields, dotted paths descend`);
   lines.push(``);
   lines.push(`Risk: ${spec.risk}${spec.public ? ", public" : ""}`);
   lines.push(``);
