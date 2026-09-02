@@ -48,9 +48,19 @@ bluesky-cli get-timeline --limit 50             # your home timeline
 bluesky-cli get-author-feed --actor navid.me    # someone's posts
 bluesky-cli search-posts "model context protocol"
 bluesky-cli create-post --text "Shipped." --confirm
-bluesky-cli get-notifications --json | jq       # JSON for scripts
+bluesky-cli list-accounts --json | jq -r '.accounts[].handle'
 bluesky-cli <command> --help                    # what any command takes
 ```
+
+`--confirm` is the shell spelling of the confirmation that posting, deleting and
+blocking require. `--json` gives JSON, `--compact` puts it on one line, and
+errors are JSON on stderr whichever you pick.
+
+One caveat worth knowing before you script against it: **reading commands return
+the tagged text**, so `--json` hands you that text as a JSON string rather than
+fields you can filter. Writes and the account commands return real objects, which
+is why the example above uses one. [Section 7](#7-reading-posts) explains the
+format and why it is shaped that way.
 
 ### MCP server, for AI agents
 
