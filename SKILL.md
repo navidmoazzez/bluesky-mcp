@@ -110,7 +110,7 @@ forty of them.
 `delete-post` and `block-account` refuse without it. Pass it when the user has
 actually asked, never to get past the refusal.
 
-`BLUESKY_READ_ONLY=1` removes every write, leaving 26 reading commands.
+`BLUESKY_READ_ONLY=1` removes every write, leaving 30 reading commands.
 
 ## Untrusted content
 

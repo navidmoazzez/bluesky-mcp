@@ -8,7 +8,7 @@
 [![X](https://img.shields.io/badge/X-@thenavidm-black?logo=x)](https://x.com/thenavidm)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-thenavidm-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/thenavidm)
 
-Bluesky MCP server and CLI for Claude Code and AI agents. 41 tools for posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph.
+Bluesky MCP server and CLI for Claude Code and AI agents. 45 tools for posting, threads, replies, timeline, search, custom feeds, lists, notifications and the social graph.
 
 One install gives you both surfaces, the same tools under the same names,
 covering everything the app does and a few things it cannot.
@@ -101,7 +101,7 @@ is the tool name with dashes.
 | Notifications | `bluesky-cli get-notifications` | `get_notifications` |
 | Check your setup | `bluesky-cli doctor` | not a tool |
 
-All 41 with their arguments are in [section 4](#6-tools).
+All 45 with their arguments are in [section 4](#6-tools).
 
 ## Contents
 
@@ -112,7 +112,7 @@ All 41 with their arguments are in [section 4](#6-tools).
 | 3 | [Install](#3-install) | Every client, copy and paste, plus the shell |
 | 4 | [Output and exit codes](#4-output-and-exit-codes) | What scripts branch on |
 | 5 | [Which surface, and what each costs](#5-which-surface-and-what-each-costs) | ~11,400 tokens a turn, or a hundred |
-| 6 | [Tools](#6-tools) | All 41, with arguments |
+| 6 | [Tools](#6-tools) | All 45, with arguments |
 | 7 | [Writing safely](#7-writing-safely) | Why posting asks twice |
 | 8 | [Writing posts](#8-writing-posts) | Links, mentions, media, threads |
 | 9 | [Reading posts](#9-reading-posts) | The output format, and why |
@@ -291,7 +291,7 @@ fi
 
 ## 5. Which surface, and what each costs
 
-Both surfaces carry the same 41 tools. They differ in when you pay for them.
+Both surfaces carry the same 45 tools. They differ in when you pay for them.
 
 | | MCP server | CLI |
 |---|---|---|
@@ -328,9 +328,9 @@ prose is what makes the tools usable without guessing.
 
 **Turn the server off when you are not using Bluesky.** In Claude Code that is
 `@bluesky` to toggle, and every client has an equivalent. `BLUESKY_READ_ONLY=1`
-drops it to the 26 reading tools.
+drops it to the 30 reading tools.
 
-**Or install the CLI and skip the server.** All 41 tools stay reachable, the
+**Or install the CLI and skip the server.** All 45 tools stay reachable, the
 standing cost falls to roughly a hundred tokens, and you connect the server
 later on the days it earns its place.
 
@@ -693,7 +693,7 @@ Read this before you install.
 - **`app.bsky.unspecced.*` is unstable by name.** `get_trends` and `search_feeds` use it. It has changed shape before and will again.
 - **Rate limits are real.** Bluesky limits writes per hour and per day. A bulk unfollow of a thousand accounts will hit them.
 
-If any of that is more than you want to hand an agent, `BLUESKY_READ_ONLY=1` gives you 26 tools that cannot change anything.
+If any of that is more than you want to hand an agent, `BLUESKY_READ_ONLY=1` gives you 30 tools that cannot change anything.
 
 ## 14. Troubleshooting
 

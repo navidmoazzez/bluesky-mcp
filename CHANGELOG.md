@@ -2,7 +2,53 @@
 
 | Component | Version | Last Updated |
 |-----------|---------|--------------|
-| bluesky-mcp-cli | 1.1.0 | 2026-09-01 |
+| bluesky-mcp-cli | 1.2.0 | 2026-09-03 |
+
+---
+
+## 1.2.0
+
+Analytics, and the flags an agent needs.
+
+### Analytics
+
+Bluesky publishes no analytics API, so every dashboard builds its own. It turns
+out not to need one: `likeCount`, `repostCount`, `replyCount` and `quoteCount`
+already ride along on every post the feed returns, and this server was rendering
+them and throwing them away.
+
+`rank_posts` sorts your posts by engagement. `get_post_stats` does one post.
+`get_engagement_summary` gives totals, averages, an engagement rate against
+followers, and a breakdown by format so you can see whether images earn their
+effort. `get_posting_patterns` crosses your posting times with the engagement
+they got, by hour and by weekday.
+
+All four run on any public account with no credentials, the same way the
+reading tools do. 45 tools now, 30 of them reads.
+
+Deliberately absent: follower growth, which is a trend and cannot come from a
+snapshot; impressions, which Bluesky exposes to nobody; and bookmarks, which are
+not confirmed publicly readable.
+
+### Agent mode
+
+`--agent` is `--json --compact --no-input --no-color --yes` in one flag.
+`--select uri,author.handle` keeps only the fields named: dotted paths descend
+and arrays traverse element-wise.
+
+### Exit codes
+
+0 success, 2 usage, 3 not found, 4 auth, 5 API, 7 rate limited, 10 config, so a
+script branches on a number instead of parsing a message. It returned 0 or 1
+before.
+
+### Fixed
+
+`schema <command>` printed the Zod object's internals rather than the JSON
+Schema an MCP client actually receives.
+
+CI asserted a hardcoded tool count, so adding a tool turned the build red with
+nothing wrong. It compares against `ALL_TOOLS` now.
 
 ---
 

@@ -7,7 +7,7 @@ One npm package, `@thenavidm/bluesky-mcp-cli`, contains two programs:
 | **`bluesky-mcp`** | the MCP server | your AI app launches it, you never do |
 | **`bluesky-cli`** | the command line tool | you, in a terminal |
 
-They are the same 41 tools. Install one, the other, or both.
+They are the same 45 tools. Install one, the other, or both.
 
 This page is the complete guide. The README carries a short version of the three
 most common routes, and they are repeated here so you never have to read both.
@@ -189,7 +189,7 @@ bunx @thenavidm/bluesky-mcp-cli --version
 | Command | What it is |
 |---|---|
 | `bluesky-mcp` | the MCP server. What Claude Desktop, Claude Code and Cursor launch, and not something you run yourself. |
-| `bluesky-cli` | the same 41 tools as shell commands. This is the one you type. |
+| `bluesky-cli` | the same 45 tools as shell commands. This is the one you type. |
 
 They are one program under two names, and the name only decides what happens
 when you pass no arguments: `bluesky-mcp` waits for a client, `bluesky-cli`
