@@ -2,7 +2,27 @@
 
 | Component | Version | Last Updated |
 |-----------|---------|--------------|
-| bluesky-mcp-cli | 1.2.1 | 2026-09-04 |
+| bluesky-mcp-cli | 1.2.2 | 2026-09-04 |
+
+---
+
+## 1.2.2
+
+Two real bugs, and honest numbers.
+
+`--select posts.uri,posts.text` returned only the text. Two paths under one head
+overwrote each other, so the flag whose entire purpose is choosing what you keep
+was quietly dropping most of it. Paths are grouped by their first segment now,
+with regression tests at three depths.
+
+`--port 8787` was ignored. Only `--port=8787` parsed, and the space form fell
+through to the default without complaining, which looks exactly like the flag
+doing nothing, because it was.
+
+The context cost in the README was characters divided by four. Counted properly
+with a tokeniser against a live handshake it is 10,969 a turn, not 11,400, and
+55% of it is JSON Schema structure rather than the 61% claimed. The CLI side
+said "roughly a hundred tokens" and is 108.
 
 ---
 
