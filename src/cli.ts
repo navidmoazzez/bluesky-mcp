@@ -235,10 +235,10 @@ export function exitCodeFor(error: unknown): number {
   // Config before auth: "no account configured" mentions a token, and matching
   // auth first sent someone who had configured nothing looking for an expired
   // credential. Only when there is no HTTP status, so a real 401 still wins.
-  if (!status && /not configured|missing .*env|no .* account/.test(text)) return EXIT.config;
+  if (!status && /not configured|no [a-z ]*(account|credential|token|key)s? (is |are )?configured|missing .*env/.test(text))
+    return EXIT.config;
   if (status === 401 || status === 403 || /auth|credential|token|password/.test(text)) return EXIT.auth;
   if (status === 404 || /not found/.test(text)) return EXIT.notFound;
-  if (/not configured|missing .*env|config/.test(text)) return EXIT.config;
   if (/will not run without|read-only|is unavailable/.test(text)) return EXIT.usage;
   if (typeof status === "number" && status >= 500) return EXIT.api;
   return EXIT.api;
