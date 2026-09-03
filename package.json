@@ -36,10 +36,10 @@
   "homepage": "https://navid.me",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/navidmoazzez/bluesky-mcp-cli.git"
+    "url": "git+https://github.com/thenavidm/bluesky-mcp-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/navidmoazzez/bluesky-mcp-cli/issues"
+    "url": "https://github.com/thenavidm/bluesky-mcp-cli/issues"
   },
   "keywords": [
     "mcp",

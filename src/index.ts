@@ -55,7 +55,7 @@ own infrastructure. Reads go to the public API, which needs no credentials.
   BLUESKY_VIDEO_SERVICE             default https://video.bsky.app
   BLUESKY_VIDEO_SERVICE_DID         default did:web:video.bsky.app
 
-https://github.com/navidmoazzez/bluesky-mcp-cli
+https://github.com/thenavidm/bluesky-mcp-cli
 `;
 
 /**

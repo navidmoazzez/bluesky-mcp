@@ -227,7 +227,7 @@ claude mcp add bluesky \
   -- npx -y @thenavidm/bluesky-mcp-cli
 ```
 
-**Claude Desktop** Download the [`.mcpb` extension](https://github.com/navidmoazzez/bluesky-mcp-cli/releases/latest)
+**Claude Desktop** Download the [`.mcpb` extension](https://github.com/thenavidm/bluesky-mcp-cli/releases/latest)
 and double-click it. No config file to edit.
 
 **A terminal**
@@ -243,7 +243,7 @@ decides what happens when you pass no arguments.
 
 That is the short version. The full guide covers every other client, Cursor,
 Windsurf, VS Code, Docker and self-hosting over HTTP, plus upgrading and
-removal: [INSTALL.md](https://github.com/navidmoazzez/bluesky-mcp-cli/blob/main/INSTALL.md).
+removal: [INSTALL.md](https://github.com/thenavidm/bluesky-mcp-cli/blob/main/INSTALL.md).
 
 ## 4. Output and exit codes
 
@@ -862,7 +862,7 @@ removes the local audit log and session cache.
 
 ## Questions
 
-Run into a problem or have a question? [Open an issue](https://github.com/navidmoazzez/bluesky-mcp-cli/issues) and I will help.
+Run into a problem or have a question? [Open an issue](https://github.com/thenavidm/bluesky-mcp-cli/issues) and I will help.
 
 ## About the author
 

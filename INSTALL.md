@@ -205,7 +205,7 @@ bluesky-cli get-profile bsky.app
 ### Building it yourself instead
 
 ```bash
-git clone https://github.com/navidmoazzez/bluesky-mcp-cli.git
+git clone https://github.com/thenavidm/bluesky-mcp-cli.git
 cd bluesky-mcp-cli
 npm install
 npm run build
