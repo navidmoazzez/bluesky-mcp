@@ -90,7 +90,17 @@ async function main(): Promise<void> {
   // A word that is not a tool used to fall through and start the server, which
   // then sat waiting on stdin. Typing `bluesky-cli get-porfile` looked like a
   // hang rather than a typo, and scripts saw a success exit code.
-  if (invokedAsCli() && command !== undefined && !command.startsWith("-")) {
+  // `doctor` belongs to the entry point rather than the tool list, and it is
+  // the first thing someone types when nothing works. Rejecting it as an
+  // unknown command sent them to the server binary to diagnose the CLI.
+  const ENTRY_COMMANDS = new Set(["doctor", "help"]);
+
+  if (
+    invokedAsCli() &&
+    command !== undefined &&
+    !command.startsWith("-") &&
+    !ENTRY_COMMANDS.has(command)
+  ) {
     process.stderr.write(
       `${JSON.stringify({ error: `Unknown command '${command}'. Run \`bluesky-cli\` to list them.` }, null, 2)}\n`,
     );
