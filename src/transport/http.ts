@@ -22,8 +22,17 @@ export type HttpOptions = {
 };
 
 export function httpOptionsFromEnv(argv: string[] = []): HttpOptions {
-  const flag = argv.find((a) => a.startsWith("--port="));
-  const port = Number(flag?.split("=")[1] ?? process.env.BLUESKY_HTTP_PORT ?? 8787);
+  // Both spellings: `--port=8787` and `--port 8787`. Accepting only the equals
+  // form meant the space form fell through to the default with no complaint,
+  // which looks exactly like the flag being ignored, because it was.
+  const i = argv.findIndex((a) => a === "--port" || a.startsWith("--port="));
+  const raw =
+    i === -1
+      ? undefined
+      : (argv[i] as string).includes("=")
+        ? (argv[i] as string).split("=")[1]
+        : argv[i + 1];
+  const port = Number(raw ?? process.env.BLUESKY_HTTP_PORT ?? 8787);
   return {
     port: Number.isFinite(port) && port > 0 ? port : 8787,
     host: process.env.BLUESKY_HTTP_HOST || "127.0.0.1",
