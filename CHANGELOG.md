@@ -2,7 +2,21 @@
 
 | Component | Version | Last Updated |
 |-----------|---------|--------------|
-| bluesky-mcp-cli | 1.2.0 | 2026-09-03 |
+| bluesky-mcp-cli | 1.2.1 | 2026-09-04 |
+
+---
+
+## 1.2.1
+
+Every link in the package pointed at a GitHub account that no longer exists.
+
+The account was renamed, so the clone command, the issues link, the security
+advisory link, the release download and the setup URL inside `src/` were all
+resolving through GitHub's rename redirect. That redirect stops working the
+moment someone else claims the old name.
+
+npm serves whatever was in the published tarball, so fixing GitHub did not fix
+the package page. This release is what actually corrects it.
 
 ---
 
