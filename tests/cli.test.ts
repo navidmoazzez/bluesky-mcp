@@ -10,7 +10,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { flagsFor, parseArgs, isCliCommand } from "../src/cli.js";
+import { flagsFor, parseArgs, isCliCommand, selectFields } from "../src/cli.js";
 import { ALL_TOOLS } from "../src/tools/index.js";
 
 describe("flagsFor", () => {
@@ -181,5 +181,32 @@ describe("documentation stays in step with the code", () => {
       .map((m) => m[1] as string)
       .filter((a) => !slugs.has(a));
     expect(dead).toEqual([]);
+  });
+});
+
+/**
+ * Two paths under one head used to overwrite each other, so
+ * `--select posts.uri,posts.text` quietly returned only the text. Silent data
+ * loss in a flag whose whole purpose is choosing what you keep.
+ */
+describe("--select keeps every path, not the last one", () => {
+  it("keeps both fields when two paths share a head", () => {
+    const data = { posts: [{ uri: "at://1", text: "hello", likeCount: 5 }] };
+    expect(selectFields(data, ["posts.uri", "posts.text"])).toEqual({
+      posts: [{ uri: "at://1", text: "hello" }],
+    });
+  });
+
+  it("groups at every depth", () => {
+    expect(selectFields({ a: { b: { c: 1, d: 2, e: 3 } } }, ["a.b.c", "a.b.e"])).toEqual({
+      a: { b: { c: 1, e: 3 } },
+    });
+  });
+
+  it("mixes a scalar with nested paths", () => {
+    expect(selectFields({ x: 1, y: { z: 2, w: 3 } }, ["x", "y.z", "y.w"])).toEqual({
+      x: 1,
+      y: { z: 2, w: 3 },
+    });
   });
 });
